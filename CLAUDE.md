@@ -29,7 +29,7 @@
 - Written plainly, the way a person describes their own project. No gradient hero, no grid of icon cards, no hype words.
 
 ## Settings
-- Its own page at /profile/settings, opened from a Settings row on Profile, with a back arrow to Profile. Every choice is saved in the browser and applies immediately, with no Save button.
+- Its own page at /profile/settings, opened with a gear icon: in the top-right corner on phones and tablets (with a back arrow to Profile on the Settings page), and in the bottom-left corner of the sidebar on desktop. Profile also has a Settings row. Every choice is saved in the browser and applies immediately, with no Save button.
 - Only add settings for features that actually exist. No switches for future features.
 - Appearance: Theme (System default, Light, Dark), with no flash of the wrong theme on load and a browser bar color (theme-color) that matches. Text size (Default, Large). Animations (Match device default, or Off).
 - Learning: Daily goal (5, 10 or 20 words a day, default 10), counted as different words practiced today in flashcards or quizzes. Reading help for romanization and kanji readings (Always, On tap default, Never). It applies to the question side of flashcards and quizzes; answers always show readings. Languages shown in Practice, with at least one always on.

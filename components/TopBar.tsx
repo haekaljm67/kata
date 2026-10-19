@@ -9,7 +9,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Settings as Gear } from "lucide-react";
 import { prefersReducedMotion } from "@/lib/appearance";
 import { BACK_LINKS, hasNavigation, SETTINGS_HREF } from "@/lib/navigation";
 import { Mascot } from "./Mascot";
@@ -68,9 +68,26 @@ export function TopBar() {
   // On desktop, Settings is opened from the gear in the sidebar, so it
   // needs no back arrow there either.
   const hideOnDesktop = logoOnly || pathname === SETTINGS_HREF;
+
+  // Phones and tablets: a gear in the top-right corner opens Settings.
+  // (Desktop has the gear at the bottom of the sidebar instead.) Not
+  // shown on the Settings page itself or on the welcome page.
+  const showGear = hasNavigation(pathname) && pathname !== SETTINGS_HREF;
+
   return (
-    <div className={`mb-5 flex h-11 items-center ${hideOnDesktop ? "lg:hidden" : ""}`}>
+    <div
+      className={`mb-5 flex h-11 items-center justify-between ${hideOnDesktop ? "lg:hidden" : ""}`}
+    >
       {content}
+      {showGear && (
+        <Link
+          href={SETTINGS_HREF}
+          aria-label="Settings"
+          className="-mr-2.5 inline-flex size-11 items-center justify-center rounded-full text-muted transition-colors outline-none hover:text-ink focus-visible:ring-2 focus-visible:ring-clay/60 lg:hidden"
+        >
+          <Gear size={22} strokeWidth={1.8} aria-hidden />
+        </Link>
+      )}
     </div>
   );
 }
