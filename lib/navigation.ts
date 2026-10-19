@@ -30,6 +30,10 @@ export function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+// The Settings page. On desktop it's the gear in the bottom-left corner
+// of the sidebar; on phones and tablets it's opened from Profile.
+export const SETTINGS_HREF = "/profile/settings";
+
 // Pages that show a back arrow in the top bar, and where it goes.
 // These are also "focus" pages: one task at a time, in a narrow column.
 export const BACK_LINKS: Record<string, { href: string; label: string }> = {

@@ -11,7 +11,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { prefersReducedMotion } from "@/lib/appearance";
-import { BACK_LINKS, hasNavigation } from "@/lib/navigation";
+import { BACK_LINKS, hasNavigation, SETTINGS_HREF } from "@/lib/navigation";
 import { Mascot } from "./Mascot";
 
 // At least 44×44 pixels, so it's easy to tap on a phone.
@@ -65,8 +65,11 @@ export function TopBar() {
   // On desktop the sidebar already shows the logo, so a row holding
   // only the logo is hidden there. Back arrows always stay.
   const logoOnly = !back && hasNavigation(pathname);
+  // On desktop, Settings is opened from the gear in the sidebar, so it
+  // needs no back arrow there either.
+  const hideOnDesktop = logoOnly || pathname === SETTINGS_HREF;
   return (
-    <div className={`mb-5 flex h-11 items-center ${logoOnly ? "lg:hidden" : ""}`}>
+    <div className={`mb-5 flex h-11 items-center ${hideOnDesktop ? "lg:hidden" : ""}`}>
       {content}
     </div>
   );
