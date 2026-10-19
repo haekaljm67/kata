@@ -1,5 +1,6 @@
 "use client";
-// The row of languages at the top of the flashcards page.
+// The row of languages at the top of the Practice pages
+// (flashcards and quizzes share the same choice).
 // Built from real radio buttons, so it works with a keyboard and
 // screen readers out of the box. The circles are hidden and the
 // labels are styled as a segmented control.
@@ -24,7 +25,7 @@ export function LanguagePicker({ options, value, onChange }: LanguagePickerProps
           >
             <input
               type="radio"
-              name="flashcard-language"
+              name="practice-language"
               value={option.code}
               checked={option.code === value}
               onChange={() => onChange(option.code)}

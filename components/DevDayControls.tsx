@@ -34,7 +34,8 @@ function DevDayControlsPanel() {
 
   return (
     <div
-      className="fixed top-3 left-3 z-50 flex items-center gap-1 rounded-full bg-[#1f2a2e] p-1 font-mono text-[11px] text-[#f7f5f0] shadow-lg"
+      // Bottom-right, just above the tabs, out of the way of page headers.
+      className="fixed right-3 bottom-[calc(4.75rem+env(safe-area-inset-bottom))] z-50 flex items-center gap-1 rounded-full bg-[#1f2a2e] p-1 font-mono text-[11px] text-[#f7f5f0] shadow-lg"
       aria-label="Developer tools"
     >
       <button

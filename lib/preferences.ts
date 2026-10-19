@@ -1,20 +1,21 @@
 // Small choices the learner makes, remembered in this browser.
-// For example, the language last picked for flashcards.
+// For example, the language picked on the Practice pages.
 
 import { createLocalStore } from "./localStore";
 
 export type Preferences = {
-  flashcardLanguage?: string; // a language code, like "ja"
+  // The language for flashcards and quizzes, like "ja". One shared
+  // choice, so switching modes keeps the same language.
+  practiceLanguage?: string;
 };
 
 function normalizePreferences(data: unknown): Preferences | null {
   if (typeof data !== "object" || data === null) return null;
-  const saved = data as Preferences;
+  const saved = data as Preferences & { flashcardLanguage?: string };
+  // Earlier versions saved this as "flashcardLanguage"; keep using it.
+  const language = saved.practiceLanguage ?? saved.flashcardLanguage;
   return {
-    flashcardLanguage:
-      typeof saved.flashcardLanguage === "string"
-        ? saved.flashcardLanguage
-        : undefined,
+    practiceLanguage: typeof language === "string" ? language : undefined,
   };
 }
 

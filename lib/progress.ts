@@ -142,6 +142,15 @@ export function recordAnswer(wordId: string, result: "know" | "missed") {
   });
 }
 
+// Marks today as a practice day (for the streak) without changing any
+// word. Used when a quiz answer is right.
+export function recordActivity() {
+  const progress = getProgress();
+  const today = dayKey();
+  if (progress.activeDays.includes(today)) return;
+  store.set({ ...progress, activeDays: [...progress.activeDays, today] });
+}
+
 // Clears all saved progress on this device.
 export function resetProgress() {
   store.set(EMPTY_PROGRESS);

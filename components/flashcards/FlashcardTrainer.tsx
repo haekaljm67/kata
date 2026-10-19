@@ -6,8 +6,8 @@ import type { RoundMode } from "@/lib/flashcards";
 import { updatePreferences, usePreferences } from "@/lib/preferences";
 import type { Language } from "@/lib/types";
 import { useIsClient } from "@/lib/useIsClient";
+import { LanguagePicker } from "@/components/LanguagePicker";
 import { FlashcardRound } from "./FlashcardRound";
-import { LanguagePicker } from "./LanguagePicker";
 
 export function FlashcardTrainer({ languages }: { languages: Language[] }) {
   const preferences = usePreferences();
@@ -15,14 +15,14 @@ export function FlashcardTrainer({ languages }: { languages: Language[] }) {
 
   // Use the language picked last time, if it still exists.
   const language =
-    languages.find((l) => l.meta.code === preferences.flashcardLanguage) ??
+    languages.find((l) => l.meta.code === preferences.practiceLanguage) ??
     languages[0];
 
   // Each new round gets a new number, which starts it fresh.
   const [round, setRound] = useState({ number: 0, mode: "due" as RoundMode });
 
   function changeLanguage(code: string) {
-    updatePreferences({ flashcardLanguage: code });
+    updatePreferences({ practiceLanguage: code });
     setRound((r) => ({ number: r.number + 1, mode: "due" }));
   }
 

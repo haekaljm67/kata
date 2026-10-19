@@ -30,9 +30,10 @@ const MODES: Mode[] = [
     href: "/practice/flashcards",
   },
   {
-    name: "Quizzes",
+    name: "Quiz",
     description: "Multiple choice, listening and fill in the blank.",
     icon: ListChecks,
+    href: "/practice/quiz",
   },
   {
     name: "Writing",
