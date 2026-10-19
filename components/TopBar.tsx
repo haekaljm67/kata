@@ -11,14 +11,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { prefersReducedMotion } from "@/lib/appearance";
+import { BACK_LINKS, hasNavigation } from "@/lib/navigation";
 import { Mascot } from "./Mascot";
-
-// Pages that show a back arrow instead of the mascot, and where it goes.
-const BACK_LINKS: Record<string, { href: string; label: string }> = {
-  "/practice/flashcards": { href: "/practice", label: "Back to Practice" },
-  "/practice/quiz": { href: "/practice", label: "Back to Practice" },
-  "/profile/settings": { href: "/profile", label: "Back to Profile" },
-};
 
 // At least 44×44 pixels, so it's easy to tap on a phone.
 const TAP_TARGET =
@@ -68,5 +62,12 @@ export function TopBar() {
       );
   }
 
-  return <div className="mb-5 flex h-11 items-center">{content}</div>;
+  // On desktop the sidebar already shows the logo, so a row holding
+  // only the logo is hidden there. Back arrows always stay.
+  const logoOnly = !back && hasNavigation(pathname);
+  return (
+    <div className={`mb-5 flex h-11 items-center ${logoOnly ? "lg:hidden" : ""}`}>
+      {content}
+    </div>
+  );
 }

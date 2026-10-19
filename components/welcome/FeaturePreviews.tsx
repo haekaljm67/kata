@@ -19,7 +19,7 @@ function Preview({ children, zoom = 0.78 }: { children: React.ReactNode; zoom?: 
     <div
       inert
       aria-hidden
-      className="pointer-events-none mt-4 overflow-hidden rounded-[1.75rem] border border-line bg-paper p-4 select-none"
+      className="pointer-events-none mt-4 overflow-hidden lg:mt-0 rounded-[1.75rem] border border-line bg-paper p-4 select-none"
     >
       <div style={{ zoom }}>{children}</div>
     </div>

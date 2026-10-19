@@ -19,6 +19,11 @@ function find(language: Language | undefined, id: string): Word | undefined {
   return language?.words.find((w) => w.id === id);
 }
 
+// On desktop, each feature puts its text on the left and its preview
+// on the right. On phones they stack.
+const FEATURE =
+  "lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-12";
+
 export default function WelcomePage() {
   const languages = getLanguages();
   const byCode = (code: string) => languages.find((l) => l.meta.code === code);
@@ -33,14 +38,14 @@ export default function WelcomePage() {
     .filter((w): w is Word => Boolean(w));
 
   return (
-    <div className="space-y-14 pb-4">
+    <div className="space-y-14 pb-4 lg:space-y-24">
       {/* 1. What Kata is */}
       <section>
         <Mascot size={64} />
-        <h1 className="mt-5 text-[2.25rem] leading-[1.1] font-bold tracking-[-0.03em]">
+        <h1 className="mt-5 text-[2.25rem] leading-[1.1] font-bold tracking-[-0.03em] lg:text-5xl">
           One word at a time.
         </h1>
-        <p className="mt-4 text-lg leading-relaxed text-muted">
+        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted lg:text-xl">
           Kata is a small, quiet place to learn words in English, Indonesian
           and Japanese. You see one word at a time, and the ones you miss come
           back until they stick.
@@ -56,7 +61,7 @@ export default function WelcomePage() {
           Beginner words first: CEFR A1 for English and Indonesian, JLPT N5
           for Japanese.
         </p>
-        <ul className="mt-5 space-y-3">
+        <ul className="mt-5 grid gap-3 lg:grid-cols-3 lg:gap-4">
           {languages.map(({ meta, words }) => {
             const sample = words.find((w) => w.id === meta.sampleWord) ?? words[0];
             if (!sample) return null;
@@ -88,31 +93,36 @@ export default function WelcomePage() {
           What you can do
         </h2>
 
-        <div className="mt-6">
-          <h3 className="font-semibold">Flashcards</h3>
-          <p className="mt-1 leading-relaxed text-muted">
-            Flip a card, then say whether you knew it. Words you miss come back
-            in the same round; words you know wait a few days before they
-            return.
-          </p>
+        <div className={`${FEATURE} mt-6 lg:mt-10`}>
+          <div>
+            <h3 className="font-semibold">Flashcards</h3>
+            <p className="mt-1 leading-relaxed text-muted">
+              Flip a card, then say whether you knew it. Words you miss come
+              back in the same round; words you know wait a few days before
+              they return.
+            </p>
+          </div>
           {flashcardWord && japanese && (
             <FlashcardPreview word={flashcardWord} language={japanese} />
           )}
         </div>
 
-        <div className="mt-10">
-          <h3 className="font-semibold">Quizzes</h3>
-          <p className="mt-1 leading-relaxed text-muted">
-            Multiple choice, listening and fill in the blank. Every answer
-            comes with a short note that teaches you something about the word.
-          </p>
+        <div className={`${FEATURE} mt-10 lg:mt-16`}>
+          <div>
+            <h3 className="font-semibold">Quizzes</h3>
+            <p className="mt-1 leading-relaxed text-muted">
+              Multiple choice, listening and fill in the blank. Every answer
+              comes with a short note that teaches you something about the
+              word.
+            </p>
+          </div>
           {quizWord && indonesian && quizOptions.length > 1 && (
             <QuizPreview word={quizWord} options={quizOptions} language={indonesian} />
           )}
         </div>
 
         {/* Not built yet: no preview, just a quiet label. */}
-        <ul className="mt-10 divide-y divide-line border-y border-line">
+        <ul className="mt-10 divide-y divide-line border-y border-line lg:mt-16 lg:grid lg:grid-cols-2 lg:gap-x-10 lg:divide-y-0">
           <ComingSoon
             name="Writing practice"
             text="Trace each stroke with a start dot and an arrow, then write on your own."
@@ -129,7 +139,7 @@ export default function WelcomePage() {
         <h2 id="how-heading" className="text-xl font-bold tracking-tight">
           How it works
         </h2>
-        <ol className="mt-5 space-y-4">
+        <ol className="mt-5 space-y-4 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
           <Step number={1} title="Pick a language">
             Choose one at the top of Practice. You can switch any time.
           </Step>
@@ -144,7 +154,7 @@ export default function WelcomePage() {
       </section>
 
       {/* 5. Start */}
-      <section>
+      <section className="lg:mx-auto lg:max-w-sm">
         <StartLearning />
         <p className="mt-3 text-center text-sm text-muted">
           No account needed. Your progress stays in this browser.

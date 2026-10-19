@@ -55,7 +55,7 @@ export default function PracticePage() {
         title="Choose how to practice"
         intro="Every mode uses the words from your lessons."
       />
-      <ul className="space-y-3">
+      <ul className="grid gap-3 lg:grid-cols-2">
         {MODES.map((mode) => {
           const Icon = mode.icon;
           const content = (
@@ -72,7 +72,7 @@ export default function PracticePage() {
             </>
           );
           const cardStyle =
-            "flex items-center gap-4 rounded-2xl border border-line bg-surface p-4";
+            "flex h-full items-center gap-4 rounded-2xl border border-line bg-surface p-4";
 
           return (
             <li key={mode.name}>

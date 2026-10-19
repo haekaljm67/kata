@@ -43,12 +43,13 @@
 
 ## Design
 - Calm and premium, with a little warmth. It must not look cheap, templated, or like generic AI-made design. No ads, no clutter.
-- Mobile-first. Bottom navigation on phones with four tabs: Today, Practice, Collection, Profile.
+- Mobile-first. Bottom navigation on phones and tablets with four tabs: Today, Practice, Collection, Profile.
+- Desktop (1024px and wider): a quiet left sidebar with the mascot logo and the same four sections replaces the bottom tabs. Page widths: one-task pages (Flashcards, Quiz, Settings) stay a narrow focused column; other pages get up to 768px; the welcome page uses side-by-side sections up to 1024px. Widths are set in one place, lib/navigation.ts.
 - Light and dark mode, following the device setting by default.
 - Reference: Hourly Kana (iOS app). Borrow its structure and clarity: big single words on clean cards, the practice hub, the lesson path, the progress screens. Don't copy its loud colors, its fonts, or its mascot.
 - Sans-serif only. Plus Jakarta Sans for interface text, Zen Kaku Gothic New for Japanese. No serif fonts.
 - Colors: off-white #F7F5F0, ink #1F2A2E, sage #7A9E8E, clay #C8795A (main accent for buttons and correct answers), line #E4E0D8
-- A simple original mascot: a small rounded ink drop with dot eyes, in ink #1F2A2E with clay or sage accents. It doubles as the logo: small, with the word "Kata", in the top left of every page, where it's the home button (goes to Today; on the welcome page it scrolls to the top). It's at least 44×44 px to tap, labeled "Kata home", and never covers content. Pages one level down (Flashcards, Quiz, Settings) show a back arrow there instead. Apart from the logo, the mascot is used sparingly: empty states, streaks, milestones, and the favicon.
+- A simple original mascot: a small rounded ink drop with dot eyes, in ink #1F2A2E with clay or sage accents. It doubles as the logo: small, with the word "Kata", in the top left of every page (in the sidebar on desktop), where it's the home button (goes to Today; on the welcome page it scrolls to the top). It's at least 44×44 px to tap, labeled "Kata home", and never covers content. Pages one level down (Flashcards, Quiz, Settings) show a back arrow there instead. Apart from the logo, the mascot is used sparingly: empty states, streaks, milestones, and the favicon.
 
 ## Build and hosting
 - Built with Claude Code, hosted free on Vercel.

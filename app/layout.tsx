@@ -4,7 +4,8 @@ import { AppearanceSync } from "@/components/AppearanceSync";
 import { BottomNav } from "@/components/BottomNav";
 import { APPEARANCE_SCRIPT } from "@/lib/appearance";
 import { DevDayControls } from "@/components/DevDayControls";
-import { TopBar } from "@/components/TopBar";
+import { AppShell } from "@/components/AppShell";
+import { Sidebar } from "@/components/Sidebar";
 import "./globals.css";
 
 /*
@@ -66,11 +67,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             flashes in the wrong theme. See lib/appearance.ts. */}
         <script dangerouslySetInnerHTML={{ __html: APPEARANCE_SCRIPT }} />
         <AppearanceSync />
-        <main className="app-main mx-auto w-full max-w-xl px-5 sm:px-8">
-          {/* Mascot home button, or a back arrow on deeper pages. */}
-          <TopBar />
-          {children}
-        </main>
+        {/* Desktop: sidebar on the left, page beside it.
+            Phones and tablets: the page, with tabs at the bottom. */}
+        <div className="lg:flex">
+          <Sidebar />
+          <AppShell>{children}</AppShell>
+        </div>
         <BottomNav />
         {/* Developer-only "pretend it's tomorrow" control. This check is
             settled when the site is built, so the live site never has it. */}

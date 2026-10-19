@@ -161,6 +161,15 @@ rt {
   padding-bottom: calc(6rem + env(safe-area-inset-bottom));
 }
 
+/* Desktop: no bottom tabs (the sidebar is used), so more air at the
+   top and less at the bottom. Matches Tailwind's "lg" size (64rem). */
+@media (min-width: 64rem) {
+  .app-main {
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+  }
+}
+
 .bottom-nav {
   padding-bottom: env(safe-area-inset-bottom);
 }

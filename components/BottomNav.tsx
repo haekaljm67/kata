@@ -1,48 +1,23 @@
 "use client";
+// The bottom tabs on phones and tablets. On desktop (lg and up) the
+// sidebar takes over (components/Sidebar.tsx).
 // "use client" means this component runs in the browser. It needs to,
 // because it checks which page you're on to highlight the right tab.
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  BookOpen,
-  CircleUserRound,
-  Layers,
-  Sun,
-  type LucideIcon,
-} from "lucide-react";
-
-type Tab = {
-  label: string;
-  href: string;
-  icon: LucideIcon;
-};
-
-// The four tabs, in order. To rename a tab or change its icon, edit it here.
-const TABS: Tab[] = [
-  { label: "Today", href: "/", icon: Sun },
-  { label: "Practice", href: "/practice", icon: Layers },
-  { label: "Collection", href: "/collection", icon: BookOpen },
-  { label: "Profile", href: "/profile", icon: CircleUserRound },
-];
-
-// A tab is active when you're on its page or a page inside it
-// (for example /practice/flashcards keeps "Practice" highlighted).
-function isActive(pathname: string, href: string) {
-  if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(`${href}/`);
-}
+import { hasNavigation, isActive, TABS } from "@/lib/navigation";
 
 export function BottomNav() {
   const pathname = usePathname();
 
   // No tabs on the welcome page: it ends with its own "Start learning".
-  if (pathname === "/welcome") return null;
+  if (!hasNavigation(pathname)) return null;
 
   return (
     <nav
       aria-label="Main"
-      className="bottom-nav fixed inset-x-0 bottom-0 z-10 border-t border-line bg-paper/90 backdrop-blur-md"
+      className="bottom-nav fixed inset-x-0 bottom-0 z-10 border-t border-line bg-paper/90 backdrop-blur-md lg:hidden"
     >
       <ul className="mx-auto grid max-w-xl grid-cols-4">
         {TABS.map((tab) => {
