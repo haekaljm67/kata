@@ -1,0 +1,3 @@
+# Store every text file with the same line endings (LF), whether it was
+# edited on Windows, Mac or Linux. Keeps history clean and matches Vercel.
+* text=auto eol=lf

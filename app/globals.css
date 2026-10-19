@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/*
+  KATA DESIGN TOKENS
+  ------------------
+  Every color in the site comes from this list. To change a color,
+  change it here and the whole site updates.
+
+  Names describe the job a color does, not the color itself:
+  - paper     page background
+  - surface   cards that sit on the page
+  - ink       main text
+  - muted     secondary text (hints, captions)
+  - line      thin borders and dividers
+  - sage      calm accent (decoration, progress)
+  - clay      main accent (buttons, correct answers, active tab)
+  - sage-ink / clay-ink   darker versions of the accents, used when the
+                          accent is the text color, so small text stays
+                          easy to read (meets contrast guidelines)
+*/
+
+/* Light mode (the default) uses the palette from CLAUDE.md. */
+:root {
+  --kata-paper: #f7f5f0;
+  --kata-surface: #fffdf9;
+  --kata-ink: #1f2a2e;
+  --kata-muted: #5b676a;
+  --kata-line: #e4e0d8;
+  --kata-sage: #7a9e8e;
+  --kata-sage-ink: #4f7465;
+  --kata-clay: #c8795a;
+  --kata-clay-ink: #a65a3c;
+
+  /* Tells the browser to draw scrollbars and form controls to match. */
+  color-scheme: light;
+}
+
+/*
+  Dark mode turns on automatically when the device is set to dark.
+  These are our own matching colors: a deep ink background, warm
+  off-white text, and slightly brighter sage and clay so they still
+  stand out on a dark page.
+*/
+@media (prefers-color-scheme: dark) {
+  :root {
+    --kata-paper: #161d20;
+    --kata-surface: #1e272b;
+    --kata-ink: #ece7de;
+    --kata-muted: #9ca6a8;
+    --kata-line: #2d373a;
+    --kata-sage: #8fb3a3;
+    --kata-sage-ink: #9dc0b0;
+    --kata-clay: #d68a6b;
+    --kata-clay-ink: #e39b7d;
+
+    color-scheme: dark;
+  }
+}
+
+/*
+  This hands the tokens to Tailwind so we can write classes like
+  bg-paper, text-ink, border-line or text-clay in our components.
+*/
+@theme inline {
+  --color-paper: var(--kata-paper);
+  --color-surface: var(--kata-surface);
+  --color-ink: var(--kata-ink);
+  --color-muted: var(--kata-muted);
+  --color-line: var(--kata-line);
+  --color-sage: var(--kata-sage);
+  --color-sage-ink: var(--kata-sage-ink);
+  --color-clay: var(--kata-clay);
+  --color-clay-ink: var(--kata-clay-ink);
+
+  /*
+    Fonts (loaded in app/layout.tsx):
+    - font-sans     Figtree for everyday text. Japanese characters fall
+                    back to Zen Kaku Gothic New automatically.
+    - font-display  Fraunces for headings and big words.
+    - font-ja       Zen Kaku Gothic New first, for Japanese words.
+  */
+  --font-sans: var(--font-figtree), var(--font-zen-kaku), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), var(--font-zen-kaku), ui-serif, Georgia, serif;
+  --font-ja: var(--font-zen-kaku), var(--font-figtree), sans-serif;
+}
+
+body {
+  background: var(--kata-paper);
+  color: var(--kata-ink);
+}
+
+/*
+  Phones with a notch or a home bar have "safe areas" at the edges.
+  These keep our content and bottom navigation out from under them.
+*/
+.app-main {
+  padding-top: max(env(safe-area-inset-top), 2rem);
+  /* Leave room at the bottom so the navigation bar never covers content. */
+  padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+}
+
+.bottom-nav {
+  padding-bottom: env(safe-area-inset-bottom);
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "en-hello",
+    "word": "hello",
+    "meaning": "a friendly greeting",
+    "partOfSpeech": "greeting",
+    "level": "A1",
+    "example": {
+      "text": "Hello, my name is Sam."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "en-water",
+    "word": "water",
+    "meaning": "the clear liquid you drink",
+    "partOfSpeech": "noun",
+    "level": "A1",
+    "example": {
+      "text": "Can I have some water, please?"
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "en-house",
+    "word": "house",
+    "meaning": "a building where people live",
+    "partOfSpeech": "noun",
+    "level": "A1",
+    "example": {
+      "text": "This is my house."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "id-terima-kasih",
+    "word": "terima kasih",
+    "meaning": "thank you",
+    "partOfSpeech": "expression",
+    "level": "A1",
+    "example": {
+      "text": "Terima kasih banyak!",
+      "translation": "Thank you very much!"
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "id-air",
+    "word": "air",
+    "meaning": "water",
+    "partOfSpeech": "noun",
+    "level": "A1",
+    "example": {
+      "text": "Saya mau air putih.",
+      "translation": "I'd like plain water."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "id-rumah",
+    "word": "rumah",
+    "meaning": "house; home",
+    "partOfSpeech": "noun",
+    "level": "A1",
+    "example": {
+      "text": "Rumah saya dekat sekolah.",
+      "translation": "My house is near the school."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  }
+]

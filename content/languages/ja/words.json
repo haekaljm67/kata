@@ -1,0 +1,48 @@
+[
+  {
+    "id": "ja-konnichiwa",
+    "word": "こんにちは",
+    "romanization": "konnichiwa",
+    "meaning": "hello; good afternoon",
+    "partOfSpeech": "greeting",
+    "level": "N5",
+    "example": {
+      "text": "こんにちは、はじめまして。",
+      "romanization": "Konnichiwa, hajimemashite.",
+      "translation": "Hello, nice to meet you."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "ja-arigatou",
+    "word": "ありがとう",
+    "romanization": "arigatō",
+    "meaning": "thank you (casual)",
+    "partOfSpeech": "expression",
+    "level": "N5",
+    "example": {
+      "text": "どうもありがとう。",
+      "romanization": "Dōmo arigatō.",
+      "translation": "Thanks a lot."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "ja-mizu",
+    "word": "水",
+    "reading": "みず",
+    "romanization": "mizu",
+    "meaning": "water",
+    "partOfSpeech": "noun",
+    "level": "N5",
+    "example": {
+      "text": "水をください。",
+      "romanization": "Mizu o kudasai.",
+      "translation": "Water, please."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  }
+]
