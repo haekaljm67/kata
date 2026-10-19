@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Zen_Kaku_Gothic_New } from "next/font/google";
 import { BottomNav } from "@/components/BottomNav";
+import { DevDayControls } from "@/components/DevDayControls";
 import "./globals.css";
 
 /*
@@ -58,6 +59,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <BottomNav />
+        {/* Developer-only "pretend it's tomorrow" control. This check is
+            settled when the site is built, so the live site never has it. */}
+        {process.env.NODE_ENV === "development" && <DevDayControls />}
       </body>
     </html>
   );

@@ -5,6 +5,7 @@
 // Everything about saving progress lives in this one file. When we add
 // accounts (Supabase) later, this is the only file that needs to change.
 
+import { now } from "./clock";
 import { createLocalStore } from "./localStore";
 
 /* ---------- The shape of saved progress ---------- */
@@ -40,7 +41,7 @@ export const REVIEW_INTERVALS_IN_DAYS = [1, 3, 7, 14, 30];
 
 // A date in the learner's own time zone, as "2026-10-19".
 // Written this way, dates also sort correctly as plain text.
-export function dayKey(date: Date = new Date()): string {
+export function dayKey(date: Date = now()): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
@@ -130,7 +131,7 @@ export function recordAnswer(wordId: string, result: "know" | "missed") {
       [wordId]: {
         correctDays,
         lastResult: result,
-        lastSeenAt: new Date().toISOString(),
+        lastSeenAt: now().toISOString(),
         step,
         dueDay,
       },
@@ -187,7 +188,7 @@ export function getStreak(activeDays: string[], today?: Date) {
   if (activeDays.length === 0) return 0;
 
   const days = new Set(activeDays);
-  const cursor = today ? new Date(today) : new Date();
+  const cursor = today ? new Date(today) : now();
 
   if (!days.has(dayKey(cursor))) {
     cursor.setDate(cursor.getDate() - 1);
