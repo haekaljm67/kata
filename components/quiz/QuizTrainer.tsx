@@ -5,37 +5,41 @@
 import { useState } from "react";
 import { VolumeX } from "lucide-react";
 import { LanguagePicker } from "@/components/LanguagePicker";
-import { updatePreferences, usePreferences } from "@/lib/preferences";
+import { enabledLanguages, updateSettings, useSettings } from "@/lib/settings";
 import { useVoice } from "@/lib/speech";
 import type { Language } from "@/lib/types";
 import { useIsClient } from "@/lib/useIsClient";
 import { QuizRound } from "./QuizRound";
 
 export function QuizTrainer({ languages }: { languages: Language[] }) {
-  const preferences = usePreferences();
+  const settings = useSettings();
   const isClient = useIsClient();
 
-  // Same language as flashcards: one shared choice for Practice.
+  // Only the languages switched on in Settings → Languages. Same
+  // language as flashcards: one shared choice for Practice.
+  const shown = enabledLanguages(languages, settings);
   const language =
-    languages.find((l) => l.meta.code === preferences.practiceLanguage) ??
-    languages[0];
+    shown.find((l) => l.meta.code === settings.practiceLanguage) ?? shown[0];
   const voice = useVoice(language.meta.speechLang);
 
   // Each new quiz gets a new number, which starts it fresh.
   const [quizNumber, setQuizNumber] = useState(0);
 
   function changeLanguage(code: string) {
-    updatePreferences({ practiceLanguage: code });
+    updateSettings({ practiceLanguage: code });
     setQuizNumber((n) => n + 1);
   }
 
   return (
     <>
-      <LanguagePicker
-        options={languages.map((l) => ({ code: l.meta.code, name: l.meta.name }))}
-        value={language.meta.code}
-        onChange={changeLanguage}
-      />
+      {/* No picker needed when only one language is switched on. */}
+      {shown.length > 1 && (
+        <LanguagePicker
+          options={shown.map((l) => ({ code: l.meta.code, name: l.meta.name }))}
+          value={language.meta.code}
+          onChange={changeLanguage}
+        />
+      )}
 
       {voice.status === "missing" && (
         <p className="mb-5 flex gap-3 rounded-2xl border border-line bg-surface p-3.5 text-sm leading-relaxed text-muted">

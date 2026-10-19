@@ -3,26 +3,29 @@
 
 import { useState } from "react";
 import type { RoundMode } from "@/lib/flashcards";
-import { updatePreferences, usePreferences } from "@/lib/preferences";
+import { enabledLanguages, updateSettings, useSettings } from "@/lib/settings";
+import { useVoice } from "@/lib/speech";
 import type { Language } from "@/lib/types";
 import { useIsClient } from "@/lib/useIsClient";
 import { LanguagePicker } from "@/components/LanguagePicker";
 import { FlashcardRound } from "./FlashcardRound";
 
 export function FlashcardTrainer({ languages }: { languages: Language[] }) {
-  const preferences = usePreferences();
+  const settings = useSettings();
   const isClient = useIsClient();
 
-  // Use the language picked last time, if it still exists.
+  // Only the languages switched on in Settings → Languages.
+  const shown = enabledLanguages(languages, settings);
+  // Use the language picked last time, if it's still shown.
   const language =
-    languages.find((l) => l.meta.code === preferences.practiceLanguage) ??
-    languages[0];
+    shown.find((l) => l.meta.code === settings.practiceLanguage) ?? shown[0];
+  const voice = useVoice(language.meta.speechLang);
 
   // Each new round gets a new number, which starts it fresh.
   const [round, setRound] = useState({ number: 0, mode: "due" as RoundMode });
 
   function changeLanguage(code: string) {
-    updatePreferences({ practiceLanguage: code });
+    updateSettings({ practiceLanguage: code });
     setRound((r) => ({ number: r.number + 1, mode: "due" }));
   }
 
@@ -32,11 +35,14 @@ export function FlashcardTrainer({ languages }: { languages: Language[] }) {
 
   return (
     <>
-      <LanguagePicker
-        options={languages.map((l) => ({ code: l.meta.code, name: l.meta.name }))}
-        value={language.meta.code}
-        onChange={changeLanguage}
-      />
+      {/* No picker needed when only one language is switched on. */}
+      {shown.length > 1 && (
+        <LanguagePicker
+          options={shown.map((l) => ({ code: l.meta.code, name: l.meta.name }))}
+          value={language.meta.code}
+          onChange={changeLanguage}
+        />
+      )}
 
       {isClient ? (
         // "key" makes React start a brand-new round whenever the
@@ -45,6 +51,7 @@ export function FlashcardTrainer({ languages }: { languages: Language[] }) {
           key={`${language.meta.code}-${round.number}`}
           language={language}
           mode={round.mode}
+          voice={voice.status === "ready" ? voice.voice : null}
           onStartRound={startRound}
         />
       ) : (

@@ -38,13 +38,16 @@
 }
 
 /*
-  Dark mode turns on automatically when the device is set to dark.
-  These are our own matching colors: a deep ink background, warm
-  off-white text, and slightly brighter sage and clay so they still
-  stand out on a dark page.
+  Dark mode: a deep ink background, warm off-white text, and slightly
+  brighter sage and clay so they still stand out on a dark page.
+
+  It turns on in two cases (Settings → Theme):
+  1. Theme is "System" and the device is set to dark.
+  2. Theme is "Dark" (data-theme="dark" on <html>).
+  The colors are listed twice, once per case. Keep both lists the same.
 */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --kata-paper: #161d20;
     --kata-surface: #1e272b;
     --kata-ink: #ece7de;
@@ -59,6 +62,42 @@
 
     color-scheme: dark;
   }
+}
+
+:root[data-theme="dark"] {
+  --kata-paper: #161d20;
+  --kata-surface: #1e272b;
+  --kata-ink: #ece7de;
+  --kata-muted: #9ca6a8;
+  --kata-line: #2d373a;
+  --kata-sage: #8fb3a3;
+  --kata-sage-ink: #9dc0b0;
+  --kata-clay: #d68a6b;
+  --kata-clay-ink: #e39b7d;
+  --kata-on-clay: #161d20;
+
+  color-scheme: dark;
+}
+
+/*
+  Settings → Text size → Large. Everything is sized in rem (relative
+  to this), so text and spacing all grow by 12.5% together.
+*/
+:root[data-text-size="large"] {
+  font-size: 112.5%;
+}
+
+/*
+  Settings → Reduce motion → Off. Stops every transition and animation,
+  whatever the device says. (When the device itself asks for less
+  motion, components use Tailwind's motion-reduce: classes.)
+*/
+:root[data-motion="reduce"] *,
+:root[data-motion="reduce"] *::before,
+:root[data-motion="reduce"] *::after {
+  transition-duration: 0s !important;
+  animation-duration: 0s !important;
+  scroll-behavior: auto !important;
 }
 
 /*

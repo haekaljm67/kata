@@ -5,6 +5,8 @@
 // computers have no Indonesian voice), so we always check first.
 
 import { useEffect, useState } from "react";
+import { getSettings } from "./settings";
+import type { Word } from "./types";
 
 // Waits for the browser's list of voices. Some browsers fill it in a
 // moment after the page loads, so we wait briefly if it's empty.
@@ -64,12 +66,25 @@ export function useVoice(lang: string): VoiceCheck {
   return result.lang === lang ? result.check : { status: "checking" };
 }
 
-// Says the text out loud. rate 1 is normal speed; lower is slower.
-export function speak(text: string, voice: SpeechSynthesisVoice, rate = 0.9) {
+// Says the text out loud at the speed chosen in Settings → Speech speed.
+// "extraSlow" is for the quiz's "Play slower" button: slower still.
+export function speak(
+  text: string,
+  voice: SpeechSynthesisVoice,
+  { extraSlow = false }: { extraSlow?: boolean } = {},
+) {
+  // 1 is the voice's normal speed; lower is slower.
+  const base = getSettings().speechSpeed === "slow" ? 0.65 : 0.9;
   window.speechSynthesis.cancel(); // stop anything still playing
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.voice = voice;
   utterance.lang = voice.lang;
-  utterance.rate = rate;
+  utterance.rate = extraSlow ? base * 0.7 : base;
   window.speechSynthesis.speak(utterance);
+}
+
+// What the voice reads for a word. Kanji words use their kana reading,
+// so 水 is read as "mizu" and not another way.
+export function spokenText(word: Word): string {
+  return word.reading ?? word.word;
 }

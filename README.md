@@ -17,7 +17,9 @@ own browser.
 - **Readings above kanji** (furigana) everywhere Japanese appears, so learners still on kana can read every word.
 - **Listening** with the browser's built-in text-to-speech. If a device has no voice for a language, the
   quiz says so and skips those questions instead of failing silently.
-- **Progress** on this device: a daily streak, plus counts of words being learned, mastered and needing practice.
+- **Progress** on this device: a daily streak, a daily word goal, plus counts of words being learned, mastered and needing practice.
+- **Settings** for theme (with no flash on load), text size, animations, daily goal, reading help, languages,
+  autoplay, speech speed and sound effects. Every setting controls something that already works.
 
 Levels follow real frameworks: CEFR (A1) for English and Indonesian, and JLPT (N5) for Japanese.
 

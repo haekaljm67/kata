@@ -8,13 +8,17 @@ import { getProgress, recordActivity, recordAnswer } from "@/lib/progress";
 import {
   buildQuiz,
   explain,
+  hasReadingHelp,
   isTypedAnswerCorrect,
   type Choice,
   type Question,
 } from "@/lib/quiz";
 import { wordMarkup } from "@/lib/ruby";
-import { speak } from "@/lib/speech";
-import { RubyText } from "@/components/RubyText";
+import { prefersReducedMotion } from "@/lib/appearance";
+import { useSettings } from "@/lib/settings";
+import { playAnswerSound } from "@/lib/sounds";
+import { speak, spokenText } from "@/lib/speech";
+import { RubyText, type ReadingsMode } from "@/components/RubyText";
 import type { Language, Word } from "@/lib/types";
 import { QuestionPrompt } from "./QuestionPrompt";
 import { QuizResults } from "./QuizResults";
@@ -27,9 +31,6 @@ type QuizRoundProps = {
   onNewQuiz: () => void;
 };
 
-// What the voice reads out. Kanji words use their kana reading, so
-// 水 is read as "mizu" and not another way.
-const spokenText = (word: Word) => word.reading ?? word.word;
 
 export function QuizRound({ language, voice, onNewQuiz }: QuizRoundProps) {
   // Build the quiz once, when it starts.
@@ -39,10 +40,28 @@ export function QuizRound({ language, voice, onNewQuiz }: QuizRoundProps) {
   const [index, setIndex] = useState(0);
   const [results, setResults] = useState<Result[]>([]);
   const [typing, setTyping] = useState(false); // "Type it instead" mode
+  const [showReadings, setShowReadings] = useState(false); // "Show reading" tapped
+  const settings = useSettings();
 
   const question = questions[index];
   const result = results[index];
   const nextButton = useRef<HTMLButtonElement>(null);
+
+  // Settings → Reading help decides whether readings above kanji (and
+  // romanization) show before answering. After answering they always
+  // show: that's part of the answer.
+  const readings: ReadingsMode =
+    result || showReadings || settings.readingHelp === "always"
+      ? "show"
+      : settings.readingHelp === "tap"
+        ? "hidden" // kept invisible until "Show reading" is tapped
+        : "none";
+  const canShowReadings =
+    Boolean(question) &&
+    settings.readingHelp === "tap" &&
+    !showReadings &&
+    !result &&
+    hasReadingHelp(question);
 
   function answer(choice: Choice) {
     if (!question || result) return;
@@ -53,8 +72,9 @@ export function QuizRound({ language, voice, onNewQuiz }: QuizRoundProps) {
 
     // A wrong answer marks the word "needs practice", so it comes back
     // first in flashcards. A right one only counts toward the streak.
-    if (correct) recordActivity();
+    if (correct) recordActivity(question.word.id);
     else recordAnswer(question.word.id, "missed");
+    playAnswerSound(correct); // only if turned on in Settings
 
     setResults((r) => {
       const next = [...r];
@@ -66,6 +86,7 @@ export function QuizRound({ language, voice, onNewQuiz }: QuizRoundProps) {
   function goNext() {
     setIndex((i) => i + 1);
     setTyping(false);
+    setShowReadings(false);
   }
 
   // Listening questions play the word as soon as they appear.
@@ -78,7 +99,7 @@ export function QuizRound({ language, voice, onNewQuiz }: QuizRoundProps) {
   useEffect(() => {
     if (!result) return;
     nextButton.current?.focus({ preventScroll: true });
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduceMotion = prefersReducedMotion();
     nextButton.current?.scrollIntoView({
       block: "nearest",
       behavior: reduceMotion ? "auto" : "smooth",
@@ -143,7 +164,10 @@ export function QuizRound({ language, voice, onNewQuiz }: QuizRoundProps) {
         question={question}
         language={language}
         answered={Boolean(result)}
-        onPlay={(rate) => voice && speak(spokenText(question.word), voice, rate)}
+        onPlay={(extraSlow) => voice && speak(spokenText(question.word), voice, { extraSlow })}
+        readings={readings}
+        canShowReadings={canShowReadings}
+        onShowReadings={() => setShowReadings(true)}
       />
 
       {/* The answer area: options, or a text box in "type it" mode. */}
@@ -159,6 +183,7 @@ export function QuizRound({ language, voice, onNewQuiz }: QuizRoundProps) {
                 question={question}
                 language={language}
                 result={result}
+                readings={readings}
                 onPick={() => answer({ word: option })}
               />
             </li>
@@ -237,6 +262,7 @@ function OptionButton({
   question,
   language,
   result,
+  readings,
   onPick,
 }: {
   number: number;
@@ -244,6 +270,7 @@ function OptionButton({
   question: Question;
   language: Language;
   result: Result | undefined;
+  readings: ReadingsMode;
   onPick: () => void;
 }) {
   const isRight = option.id === question.word.id;
@@ -277,7 +304,7 @@ function OptionButton({
         lang={showsWord ? language.meta.code : undefined}
         className={`flex-1 ${showsWord ? "text-lg font-medium" : "font-medium"}`}
       >
-        {showsWord ? <RubyText text={wordMarkup(option)} /> : option.meaning}
+        {showsWord ? <RubyText text={wordMarkup(option)} readings={readings} /> : option.meaning}
       </span>
       {result && isRight && <Check size={20} strokeWidth={2.6} aria-label="Right answer" />}
       {result && wasPicked && !isRight && <X size={20} strokeWidth={2.4} aria-label="Your answer" />}

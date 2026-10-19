@@ -3,6 +3,7 @@
 // practice them.
 
 import Link from "next/link";
+import { DailyGoal } from "@/components/DailyGoal";
 import { Mascot } from "@/components/Mascot";
 import { RubyText } from "@/components/RubyText";
 import { wordMarkup } from "@/lib/ruby";
@@ -42,6 +43,10 @@ export function QuizResults({ questions, results, language, onNewQuiz }: QuizRes
         <span className="text-2xl font-medium text-muted"> / {questions.length}</span>
       </p>
       <p className="mt-2 text-muted">{message}</p>
+
+      <div className="mt-6 w-full text-left">
+        <DailyGoal compact />
+      </div>
 
       {toReview.length > 0 && (
         <div className="mt-7 w-full text-left">

@@ -3,6 +3,7 @@
 // progress is stored there.
 
 import { countByStatus, getStreak, useProgress } from "@/lib/progress";
+import { DailyGoal } from "./DailyGoal";
 
 export function ProgressSummary() {
   const progress = useProgress();
@@ -29,6 +30,10 @@ export function ProgressSummary() {
             {streak === 1 ? "day" : "days"}
           </span>
         </p>
+        {/* Today's goal, set in Settings → Daily goal. */}
+        <div className="mt-5 border-t border-line pt-4">
+          <DailyGoal compact />
+        </div>
       </div>
 
       <dl className="grid grid-cols-3 gap-3">
@@ -46,11 +51,6 @@ export function ProgressSummary() {
           </div>
         ))}
       </dl>
-
-      <p className="text-sm leading-relaxed text-muted">
-        Your progress is saved in this browser. Accounts to keep it safe
-        across devices are coming later.
-      </p>
     </section>
   );
 }

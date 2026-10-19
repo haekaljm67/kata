@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Zen_Kaku_Gothic_New } from "next/font/google";
+import { AppearanceSync } from "@/components/AppearanceSync";
 import { BottomNav } from "@/components/BottomNav";
+import { APPEARANCE_SCRIPT } from "@/lib/appearance";
 import { DevDayControls } from "@/components/DevDayControls";
 import "./globals.css";
 
@@ -53,8 +55,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${jakarta.variable} ${zenKaku.variable} antialiased`}
+      // The script below adds the learner's theme, text size and motion
+      // choices to this tag before React starts. This tells React that's
+      // expected, so it doesn't warn about the extra attributes.
+      suppressHydrationWarning
     >
       <body className="min-h-dvh bg-paper font-sans text-ink">
+        {/* Runs first, before anything is drawn, so the page never
+            flashes in the wrong theme. See lib/appearance.ts. */}
+        <script dangerouslySetInnerHTML={{ __html: APPEARANCE_SCRIPT }} />
+        <AppearanceSync />
         <main className="app-main mx-auto w-full max-w-xl px-5 sm:px-8">
           {children}
         </main>

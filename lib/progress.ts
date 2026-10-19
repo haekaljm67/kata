@@ -24,11 +24,22 @@ export type Progress = {
   version: 1;
   words: Record<string, WordProgress>; // keyed by word id, e.g. "ja-mizu"
   activeDays: string[]; // days with any practice, for the streak
+  // Which words were practiced on each day, for the daily goal:
+  // { "2026-10-20": ["ja-mizu", "ja-neko"] }. Only recent days are kept.
+  practicedByDay: Record<string, string[]>;
 };
 
 export type WordStatus = "new" | "learning" | "mastered" | "needs-practice";
 
-const EMPTY_PROGRESS: Progress = { version: 1, words: {}, activeDays: [] };
+const EMPTY_PROGRESS: Progress = {
+  version: 1,
+  words: {},
+  activeDays: [],
+  practicedByDay: {},
+};
+
+// How many days of practicedByDay to keep (enough for weekly views later).
+const DAYS_KEPT = 60;
 
 /* ---------- The review schedule (spaced repetition) ---------- */
 
@@ -82,7 +93,11 @@ function normalizeProgress(data: unknown): Progress | null {
   for (const [id, entry] of Object.entries(saved.words)) {
     words[id] = normalizeWord(entry);
   }
-  return { version: 1, words, activeDays: saved.activeDays };
+  const practicedByDay =
+    typeof saved.practicedByDay === "object" && saved.practicedByDay !== null
+      ? saved.practicedByDay
+      : {};
+  return { version: 1, words, activeDays: saved.activeDays, practicedByDay };
 }
 
 // The name our data is stored under. The "v1" lets us change the shape
@@ -98,6 +113,28 @@ export function useProgress(): Progress {
 }
 
 /* ---------- Actions ---------- */
+
+// Notes that a word was practiced today: today becomes an active day
+// (for the streak) and the word counts toward today's goal (once).
+// Returns the updated parts of progress.
+function markPracticed(progress: Progress, wordId: string, today: string) {
+  const activeDays = progress.activeDays.includes(today)
+    ? progress.activeDays
+    : [...progress.activeDays, today];
+
+  const todays = progress.practicedByDay[today] ?? [];
+  const practicedByDay: Record<string, string[]> = {
+    ...progress.practicedByDay,
+    [today]: todays.includes(wordId) ? todays : [...todays, wordId],
+  };
+  // Forget days older than DAYS_KEPT, so storage stays small.
+  const oldest = addDays(today, -DAYS_KEPT);
+  for (const day of Object.keys(practicedByDay)) {
+    if (day < oldest) delete practicedByDay[day];
+  }
+
+  return { activeDays, practicedByDay };
+}
 
 // Records a flashcard or quiz answer for one word.
 export function recordAnswer(wordId: string, result: "know" | "missed") {
@@ -136,19 +173,23 @@ export function recordAnswer(wordId: string, result: "know" | "missed") {
         dueDay,
       },
     },
-    activeDays: progress.activeDays.includes(today)
-      ? progress.activeDays
-      : [...progress.activeDays, today],
+    ...markPracticed(progress, wordId, today),
   });
 }
 
-// Marks today as a practice day (for the streak) without changing any
-// word. Used when a quiz answer is right.
-export function recordActivity() {
+// Counts a word as practiced today (for the streak and daily goal)
+// without changing its review schedule. Used when a quiz answer is right.
+export function recordActivity(wordId: string) {
   const progress = getProgress();
-  const today = dayKey();
-  if (progress.activeDays.includes(today)) return;
-  store.set({ ...progress, activeDays: [...progress.activeDays, today] });
+  store.set({ ...progress, ...markPracticed(progress, wordId, dayKey()) });
+}
+
+// How many different words were practiced today.
+export function wordsPracticedToday(progress: Progress): number {
+  // Nothing saved yet: skip the date check. This also keeps "today" out
+  // of the page Next.js prepares in advance (see getStreak below).
+  if (Object.keys(progress.practicedByDay).length === 0) return 0;
+  return progress.practicedByDay[dayKey()]?.length ?? 0;
 }
 
 // Clears all saved progress on this device.

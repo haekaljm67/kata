@@ -194,6 +194,22 @@ export function buildQuiz(
   });
 }
 
+/* ---------- Reading help ---------- */
+
+// Is there anything for "Show reading" to reveal before answering?
+// That's romanization for a meaning question, or a kanji reading in
+// the word, the sentence or the options.
+export function hasReadingHelp(question: Question): boolean {
+  const hasKanjiReading = (text: string) => text.includes("{");
+  if (question.type === "meaning") {
+    return Boolean(question.word.romanization) || hasKanjiReading(wordMarkup(question.word));
+  }
+  if (question.blank && hasKanjiReading(question.blank.before + question.blank.after)) {
+    return true;
+  }
+  return question.options.some((option) => hasKanjiReading(wordMarkup(option)));
+}
+
 /* ---------- Typed answers ---------- */
 
 // Makes typed text comparable: no capitals, no extra spaces, no

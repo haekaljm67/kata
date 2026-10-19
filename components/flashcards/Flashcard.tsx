@@ -3,9 +3,11 @@
 // card over to show the reading, meaning and an example sentence.
 
 import { useState } from "react";
-import { RubyText } from "@/components/RubyText";
+import { Volume2 } from "lucide-react";
+import { RubyText, type ReadingsMode } from "@/components/RubyText";
 import { bigWordSizeClass } from "@/lib/flashcards";
 import { wordMarkup } from "@/lib/ruby";
+import { useSettings } from "@/lib/settings";
 import type { LanguageMeta, Word } from "@/lib/types";
 
 type FlashcardProps = {
@@ -13,6 +15,7 @@ type FlashcardProps = {
   language: LanguageMeta;
   flipped: boolean;
   onFlip: () => void;
+  onSpeak?: () => void; // missing when the device has no voice
 };
 
 // Shared look for both sides of the card. Both sides sit in the same
@@ -25,9 +28,22 @@ const FACE =
 const FLIP_BUTTON =
   "absolute inset-0 cursor-pointer rounded-[2rem] outline-none focus-visible:ring-2 focus-visible:ring-clay/60";
 
-export function Flashcard({ word, language, flipped, onFlip }: FlashcardProps) {
+export function Flashcard({ word, language, flipped, onFlip, onSpeak }: FlashcardProps) {
   const code = language.code;
-  const showHint = language.usesRomanization && word.romanization;
+  const { readingHelp } = useSettings();
+  // "Show reading" tapped on this card. Each card starts fresh, because
+  // the round gives every card its own key.
+  const [revealed, setRevealed] = useState(false);
+
+  // Reading help on the front: romanization and readings above kanji.
+  const romanization = language.usesRomanization ? word.romanization : undefined;
+  const hasHelp = Boolean(romanization) || wordMarkup(word).includes("{");
+  const showHelp = readingHelp === "always" || revealed;
+  const readings: ReadingsMode = showHelp
+    ? "show"
+    : readingHelp === "tap"
+      ? "hidden" // space kept, so the word doesn't jump when revealed
+      : "none";
 
   return (
     // perspective gives the flip its depth.
@@ -50,10 +66,36 @@ export function Flashcard({ word, language, flipped, onFlip }: FlashcardProps) {
             lang={code}
             className={`pointer-events-none font-semibold tracking-tight text-balance ${bigWordSizeClass(word.word)}`}
           >
-            {/* Kanji words show their kana reading above. */}
-            <RubyText text={wordMarkup(word)} />
+            {/* Kanji words can show their kana reading above. */}
+            <RubyText text={wordMarkup(word)} readings={readings} />
           </p>
-          {showHint && <RomanizationHint text={word.romanization!} />}
+          {showHelp && romanization && (
+            <p className="pointer-events-none mt-4 text-muted" aria-live="polite">
+              {romanization}
+            </p>
+          )}
+          {/* Settings → Reading help → On tap. Sits above the flip
+              button, so tapping it doesn't flip the card. */}
+          {readingHelp === "tap" && !revealed && hasHelp && (
+            <button
+              type="button"
+              onClick={() => setRevealed(true)}
+              className="relative z-10 mt-5 cursor-pointer rounded-full px-3 py-1.5 text-sm text-muted underline decoration-line decoration-1 underline-offset-4 transition-colors hover:text-ink"
+            >
+              Show reading
+            </button>
+          )}
+          {/* Hear the word. Only shown when the device has a voice. */}
+          {onSpeak && (
+            <button
+              type="button"
+              onClick={onSpeak}
+              aria-label="Play the word"
+              className="absolute top-4 right-4 z-10 flex size-11 cursor-pointer items-center justify-center rounded-full text-muted transition-colors hover:bg-clay/10 hover:text-clay-ink focus-visible:ring-2 focus-visible:ring-clay/60 focus-visible:outline-none"
+            >
+              <Volume2 size={20} strokeWidth={1.8} aria-hidden />
+            </button>
+          )}
           <p className="pointer-events-none absolute bottom-6 text-xs text-muted">
             Tap to flip
           </p>
@@ -106,27 +148,5 @@ export function Flashcard({ word, language, flipped, onFlip }: FlashcardProps) {
         </div>
       </div>
     </div>
-  );
-}
-
-// The small "Show romanization" hint on the front of the card.
-// It sits above the flip button, so tapping it doesn't flip the card.
-function RomanizationHint({ text }: { text: string }) {
-  const [shown, setShown] = useState(false);
-
-  return (
-    <button
-      type="button"
-      onClick={() => setShown(true)}
-      disabled={shown}
-      className={`relative z-10 mt-5 rounded-full px-3 py-1.5 text-sm transition-colors ${
-        shown
-          ? "text-ink"
-          : "cursor-pointer text-muted underline decoration-line decoration-1 underline-offset-4 hover:text-ink"
-      }`}
-    >
-      {/* aria-live announces the romanization to screen readers when it appears. */}
-      <span aria-live="polite">{shown ? text : "Show romanization"}</span>
-    </button>
   );
 }

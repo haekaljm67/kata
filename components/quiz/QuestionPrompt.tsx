@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { Volume2 } from "lucide-react";
-import { RubyText } from "@/components/RubyText";
+import { RubyText, type ReadingsMode } from "@/components/RubyText";
 import { bigWordSizeClass } from "@/lib/flashcards";
 import type { Question } from "@/lib/quiz";
 import { wordMarkup } from "@/lib/ruby";
@@ -20,10 +20,21 @@ type QuestionPromptProps = {
   question: Question;
   language: Language;
   answered: boolean;
-  onPlay: (rate?: number) => void;
+  onPlay: (extraSlow?: boolean) => void;
+  readings: ReadingsMode; // from Settings → Reading help
+  canShowReadings: boolean; // show the "Show reading" hint?
+  onShowReadings: () => void;
 };
 
-export function QuestionPrompt({ question, language, answered, onPlay }: QuestionPromptProps) {
+export function QuestionPrompt({
+  question,
+  language,
+  answered,
+  onPlay,
+  readings,
+  canShowReadings,
+  onShowReadings,
+}: QuestionPromptProps) {
   const { word } = question;
   const code = language.meta.code;
 
@@ -34,13 +45,18 @@ export function QuestionPrompt({ question, language, answered, onPlay }: Questio
       </p>
 
       {question.type === "meaning" && (
-        // Kanji words show their kana reading above, for kana-first learners.
-        <p
-          lang={code}
-          className={`mt-4 font-semibold tracking-tight text-balance ${bigWordSizeClass(word.word)}`}
-        >
-          <RubyText text={wordMarkup(word)} />
-        </p>
+        <>
+          {/* Kanji words can show their kana reading above. */}
+          <p
+            lang={code}
+            className={`mt-4 font-semibold tracking-tight text-balance ${bigWordSizeClass(word.word)}`}
+          >
+            <RubyText text={wordMarkup(word)} readings={readings} />
+          </p>
+          {readings === "show" && word.romanization && (
+            <p className="mt-2 text-muted">{word.romanization}</p>
+          )}
+        </>
       )}
 
       {question.type === "listening" && (
@@ -55,7 +71,7 @@ export function QuestionPrompt({ question, language, answered, onPlay }: Questio
           </button>
           <button
             type="button"
-            onClick={() => onPlay(0.6)}
+            onClick={() => onPlay(true)}
             className="mt-3 cursor-pointer rounded-full px-3 py-1.5 text-sm text-muted underline decoration-line underline-offset-4 hover:text-ink"
           >
             Play slower
@@ -72,7 +88,7 @@ export function QuestionPrompt({ question, language, answered, onPlay }: Questio
       {question.type === "blank" && question.blank && (
         <>
           <p lang={code} className="mt-5 text-2xl leading-relaxed font-medium text-balance">
-            <RubyText text={question.blank.before} />
+            <RubyText text={question.blank.before} readings={readings} />
             {answered ? (
               <span className="text-clay-ink">
                 <RubyText text={question.blank.answer} />
@@ -85,12 +101,24 @@ export function QuestionPrompt({ question, language, answered, onPlay }: Questio
                 &nbsp;
               </span>
             )}
-            <RubyText text={question.blank.after} />
+            <RubyText text={question.blank.after} readings={readings} />
           </p>
           {word.example.translation && (
             <TranslationHint text={word.example.translation} answered={answered} />
           )}
         </>
+      )}
+
+      {/* Settings → Reading help → On tap: reveals the readings above
+          kanji (here and in the options) and the romanization. */}
+      {canShowReadings && (
+        <button
+          type="button"
+          onClick={onShowReadings}
+          className="mt-3 cursor-pointer rounded-full px-3 py-1.5 text-sm text-muted underline decoration-line underline-offset-4 hover:text-ink"
+        >
+          Show reading
+        </button>
       )}
     </div>
   );

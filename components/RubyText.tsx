@@ -4,19 +4,34 @@
 
 import { parseRuby } from "@/lib/ruby";
 
-export function RubyText({ text }: { text: string }) {
+// How readings are shown (Settings → Reading help):
+// - "show"    readings above kanji
+// - "hidden"  space kept, reading invisible (so nothing shifts when it
+//             appears after "Show reading" is tapped)
+// - "none"    no readings at all, just the kanji
+export type ReadingsMode = "show" | "hidden" | "none";
+
+export function RubyText({
+  text,
+  readings = "show",
+}: {
+  text: string;
+  readings?: ReadingsMode;
+}) {
   return (
     <>
-      {parseRuby(text).map((part, i) =>
-        typeof part === "string" ? (
-          part
-        ) : (
+      {parseRuby(text).map((part, i) => {
+        if (typeof part === "string") return part;
+        if (readings === "none") return part.base;
+        return (
           <ruby key={i}>
             {part.base}
-            <rt>{part.reading}</rt>
+            <rt className={readings === "hidden" ? "invisible" : undefined}>
+              {part.reading}
+            </rt>
           </ruby>
-        ),
-      )}
+        );
+      })}
     </>
   );
 }

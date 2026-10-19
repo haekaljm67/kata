@@ -65,7 +65,7 @@ export function BottomNav() {
                   <Icon size={20} strokeWidth={active ? 2.1 : 1.7} aria-hidden />
                 </span>
                 <span
-                  className={`text-[11px] font-medium tracking-wide transition-colors duration-200 ${
+                  className={`text-[0.6875rem] font-medium tracking-wide transition-colors duration-200 ${
                     active ? "text-clay-ink" : "text-muted group-hover:text-ink"
                   }`}
                 >

@@ -5,6 +5,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Check, RotateCcw } from "lucide-react";
+import { DailyGoal } from "@/components/DailyGoal";
 import { Mascot } from "@/components/Mascot";
 import { RubyText } from "@/components/RubyText";
 import { wordMarkup } from "@/lib/ruby";
@@ -14,6 +15,9 @@ import {
   type RoundMode,
 } from "@/lib/flashcards";
 import { dayKey, getProgress, recordAnswer } from "@/lib/progress";
+import { getSettings } from "@/lib/settings";
+import { playAnswerSound } from "@/lib/sounds";
+import { speak, spokenText } from "@/lib/speech";
 import type { Language, Word } from "@/lib/types";
 import { Flashcard } from "./Flashcard";
 
@@ -29,10 +33,11 @@ type RoundState = {
 type FlashcardRoundProps = {
   language: Language;
   mode: RoundMode;
+  voice: SpeechSynthesisVoice | null; // null: no voice on this device
   onStartRound: (mode: RoundMode) => void;
 };
 
-export function FlashcardRound({ language, mode, onStartRound }: FlashcardRoundProps) {
+export function FlashcardRound({ language, mode, voice, onStartRound }: FlashcardRoundProps) {
   // Pick the cards once, when the round starts.
   const [state, setState] = useState<RoundState>(() => {
     const cards = buildRound(language.words, getProgress(), dayKey(), mode);
@@ -45,6 +50,7 @@ export function FlashcardRound({ language, mode, onStartRound }: FlashcardRoundP
   function answer(result: Answer) {
     if (!current) return;
     recordAnswer(current.id, result);
+    playAnswerSound(result === "know"); // only if turned on in Settings
 
     setState((s) => {
       const rest = s.queue.slice(1);
@@ -65,6 +71,19 @@ export function FlashcardRound({ language, mode, onStartRound }: FlashcardRoundP
     });
     setFlipped(false);
   }
+
+  // Settings → Autoplay: say each word when its card appears.
+  // (Browsers may stay silent until the page has been tapped once.)
+  const cardKey = current ? `${current.id}-${state.answerCount}` : null;
+  const hasVoice = voice !== null;
+  useEffect(() => {
+    if (cardKey && current && voice && getSettings().autoplay) {
+      speak(spokenText(current), voice);
+    }
+    // Runs once per card, and once more if the device's voice finishes
+    // loading after the first card is already showing.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cardKey, hasVoice]);
 
   // Keyboard shortcuts on a computer:
   // Space flips the card, ← means Missed, → means Know.
@@ -133,11 +152,12 @@ export function FlashcardRound({ language, mode, onStartRound }: FlashcardRoundP
       {/* "key" gives every card a fresh start, so the next card appears
           front side up instead of flipping back over. */}
       <Flashcard
-        key={`${current.id}-${state.answerCount}`}
+        key={cardKey}
         word={current}
         language={language.meta}
         flipped={flipped}
         onFlip={() => setFlipped((f) => !f)}
+        onSpeak={voice ? () => speak(spokenText(current), voice) : undefined}
       />
 
       <div className="mt-5 grid grid-cols-2 gap-3">
@@ -191,6 +211,10 @@ function RoundSummary({
         You knew <span className="font-semibold text-ink">{knew}</span> of{" "}
         {state.total} on the first try.
       </p>
+
+      <div className="mt-6 w-full text-left">
+        <DailyGoal compact />
+      </div>
 
       {missedWords.length > 0 && (
         <div className="mt-6 w-full">
