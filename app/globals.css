@@ -155,7 +155,8 @@ rt {
   These keep our content and bottom navigation out from under them.
 */
 .app-main {
-  padding-top: max(env(safe-area-inset-top), 2rem);
+  /* A little room above the top bar (mascot home button). */
+  padding-top: max(env(safe-area-inset-top), 0.75rem);
   /* Leave room at the bottom so the navigation bar never covers content. */
   padding-bottom: calc(6rem + env(safe-area-inset-bottom));
 }

@@ -36,6 +36,9 @@ function isActive(pathname: string, href: string) {
 export function BottomNav() {
   const pathname = usePathname();
 
+  // No tabs on the welcome page: it ends with its own "Start learning".
+  if (pathname === "/welcome") return null;
+
   return (
     <nav
       aria-label="Main"

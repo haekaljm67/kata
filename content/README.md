@@ -19,7 +19,7 @@ Each language folder has two files:
 ## Adding a new language
 
 1. Copy an existing folder, for example `id`, and rename the copy to the new language code (`fr` for French).
-2. In `language.json`, change `code` to match the folder name, then update the name, levels and `speechLang` (for example `fr-FR`).
+2. In `language.json`, change `code` to match the folder name, then update the name, levels and `speechLang` (for example `fr-FR`). Set `sampleWord` to the id of the word shown for this language on the welcome page.
 3. Replace the words in `words.json`.
 4. Restart the site. The new language appears automatically.
 

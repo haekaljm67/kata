@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
 import { FlashcardTrainer } from "@/components/flashcards/FlashcardTrainer";
 import { getLanguages } from "@/lib/content";
 
@@ -14,16 +12,8 @@ export default function FlashcardsPage() {
 
   return (
     <>
-      <header className="mb-5 flex items-center gap-1">
-        <Link
-          href="/practice"
-          aria-label="Back to Practice"
-          className="-ml-2.5 flex size-10 items-center justify-center rounded-full text-muted transition-colors hover:text-ink"
-        >
-          <ChevronLeft size={24} strokeWidth={2} aria-hidden />
-        </Link>
-        <h1 className="text-2xl font-bold tracking-tight">Flashcards</h1>
-      </header>
+      {/* The back arrow to Practice is in the top bar (components/TopBar.tsx). */}
+      <h1 className="mb-5 text-2xl font-bold tracking-tight">Flashcards</h1>
       <FlashcardTrainer languages={languages} />
     </>
   );

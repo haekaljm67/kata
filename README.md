@@ -18,6 +18,7 @@ own browser.
 - **Listening** with the browser's built-in text-to-speech. If a device has no voice for a language, the
   quiz says so and skips those questions instead of failing silently.
 - **Progress** on this device: a daily streak, a daily word goal, plus counts of words being learned, mastered and needing practice.
+- **A welcome page** for first-time visitors, with small previews built from the real flashcard and quiz screens.
 - **Settings** for theme (with no flash on load), text size, animations, daily goal, reading help, languages,
   autoplay, speech speed and sound effects. Every setting controls something that already works.
 

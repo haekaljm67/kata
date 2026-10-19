@@ -4,6 +4,7 @@ import { AppearanceSync } from "@/components/AppearanceSync";
 import { BottomNav } from "@/components/BottomNav";
 import { APPEARANCE_SCRIPT } from "@/lib/appearance";
 import { DevDayControls } from "@/components/DevDayControls";
+import { TopBar } from "@/components/TopBar";
 import "./globals.css";
 
 /*
@@ -66,6 +67,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: APPEARANCE_SCRIPT }} />
         <AppearanceSync />
         <main className="app-main mx-auto w-full max-w-xl px-5 sm:px-8">
+          {/* Mascot home button, or a back arrow on deeper pages. */}
+          <TopBar />
           {children}
         </main>
         <BottomNav />

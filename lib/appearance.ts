@@ -12,7 +12,7 @@
 // browser-only code, so app/layout.tsx (which runs on the server) can
 // safely use APPEARANCE_SCRIPT from this file.
 import type { Settings } from "./settings";
-import { SETTINGS_KEY } from "./storageKeys";
+import { PROGRESS_KEY, SETTINGS_KEY, WELCOMED_KEY } from "./storageKeys";
 
 // Browser bar colors (the "theme-color"), matching --kata-paper.
 const BAR_LIGHT = "#f7f5f0";
@@ -52,11 +52,27 @@ export function prefersReducedMotion(): boolean {
   );
 }
 
-// The same as applyAppearance, as plain JavaScript text. app/layout.tsx
-// puts it at the top of the page so it runs before anything is drawn.
-// It's wrapped in try/catch so a blocked or damaged save never breaks
-// the page; the device settings are used instead.
+// Plain JavaScript text that app/layout.tsx puts at the top of the page,
+// so it runs before anything is drawn. It does two things:
+//
+// 1. First visit: someone opening Today ("/") who has never tapped
+//    "Start learning" and has no saved progress is sent to the welcome
+//    page. Direct links to other pages are left alone.
+// 2. Appearance: the same job as applyAppearance above.
+//
+// Each part is wrapped in try/catch so a blocked or damaged save never
+// breaks the page; the device settings are used instead.
 export const APPEARANCE_SCRIPT = `(function () {
+  try {
+    if (
+      location.pathname === "/" &&
+      !localStorage.getItem(${JSON.stringify(WELCOMED_KEY)}) &&
+      !localStorage.getItem(${JSON.stringify(PROGRESS_KEY)})
+    ) {
+      location.replace("/welcome");
+      return;
+    }
+  } catch (e) {}
   try {
     var s = JSON.parse(localStorage.getItem(${JSON.stringify(SETTINGS_KEY)}) || "{}") || {};
     var root = document.documentElement;

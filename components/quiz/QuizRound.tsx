@@ -256,7 +256,7 @@ export function QuizRound({ language, voice, onNewQuiz }: QuizRoundProps) {
 
 /* ---------- One answer option ---------- */
 
-function OptionButton({
+export function OptionButton({
   number,
   option,
   question,

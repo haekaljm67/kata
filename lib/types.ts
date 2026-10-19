@@ -16,6 +16,7 @@ export type LanguageMeta = {
   startLevel: string; // where beginners start
   usesRomanization: boolean; // show the optional romanization hint?
   speechLang: string; // voice code for the browser's text-to-speech: "ja-JP"
+  sampleWord?: string; // id of the word shown for this language on the welcome page
 };
 
 // An example sentence that shows a word in use.

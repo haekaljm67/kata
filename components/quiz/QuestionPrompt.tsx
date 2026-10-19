@@ -5,7 +5,7 @@
 import { useState } from "react";
 import { Volume2 } from "lucide-react";
 import { RubyText, type ReadingsMode } from "@/components/RubyText";
-import { bigWordSizeClass } from "@/lib/flashcards";
+import { bigWordSizeClass } from "@/lib/wordSize";
 import type { Question } from "@/lib/quiz";
 import { wordMarkup } from "@/lib/ruby";
 import type { Language } from "@/lib/types";

@@ -22,8 +22,14 @@
 - Progress: word milestones (10, 50, 100, 200, 500), a daily streak with weekday dots, and counts for learning / mastered / needs practice.
 - Works without an account. Signing up saves progress (free option such as Supabase).
 
+## Welcome page
+- At /welcome. Content in order: a one- or two-sentence intro with the mascot; the three languages, each with one real sample word shown like a flashcard front (set by `sampleWord` in each language.json); what you can do, with small previews built from the real flashcard and quiz parts, and features that don't exist yet marked "Coming soon"; "How it works" in three steps; and a "Start learning" button to Today, with a note that no account is needed.
+- Shown on a first visit that lands on Today: someone who has never tapped "Start learning" and has no saved progress. After "Start learning", visits go straight to Today. Direct links to other pages are never redirected.
+- Always reachable at /welcome and from Settings → About → About Kata. No bottom navigation on this page.
+- Written plainly, the way a person describes their own project. No gradient hero, no grid of icon cards, no hype words.
+
 ## Settings
-- Lives on the Profile page, below progress. Every choice is saved in the browser and applies immediately, with no Save button.
+- Its own page at /profile/settings, opened from a Settings row on Profile, with a back arrow to Profile. Every choice is saved in the browser and applies immediately, with no Save button.
 - Only add settings for features that actually exist. No switches for future features.
 - Appearance: Theme (System default, Light, Dark), with no flash of the wrong theme on load and a browser bar color (theme-color) that matches. Text size (Default, Large). Animations (Match device default, or Off).
 - Learning: Daily goal (5, 10 or 20 words a day, default 10), counted as different words practiced today in flashcards or quizzes. Reading help for romanization and kanji readings (Always, On tap default, Never). It applies to the question side of flashcards and quizzes; answers always show readings. Languages shown in Practice, with at least one always on.
@@ -42,7 +48,7 @@
 - Reference: Hourly Kana (iOS app). Borrow its structure and clarity: big single words on clean cards, the practice hub, the lesson path, the progress screens. Don't copy its loud colors, its fonts, or its mascot.
 - Sans-serif only. Plus Jakarta Sans for interface text, Zen Kaku Gothic New for Japanese. No serif fonts.
 - Colors: off-white #F7F5F0, ink #1F2A2E, sage #7A9E8E, clay #C8795A (main accent for buttons and correct answers), line #E4E0D8
-- A simple original mascot: a small rounded ink drop with dot eyes, in ink #1F2A2E with clay or sage accents. Used sparingly: empty states, streaks, milestones, and the favicon.
+- A simple original mascot: a small rounded ink drop with dot eyes, in ink #1F2A2E with clay or sage accents. It doubles as the logo: small, with the word "Kata", in the top left of every page, where it's the home button (goes to Today; on the welcome page it scrolls to the top). It's at least 44×44 px to tap, labeled "Kata home", and never covers content. Pages one level down (Flashcards, Quiz, Settings) show a back arrow there instead. Apart from the logo, the mascot is used sparingly: empty states, streaks, milestones, and the favicon.
 
 ## Build and hosting
 - Built with Claude Code, hosted free on Vercel.

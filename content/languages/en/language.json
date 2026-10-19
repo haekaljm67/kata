@@ -6,5 +6,6 @@
   "levels": ["A1", "A2", "B1", "B2", "C1", "C2"],
   "startLevel": "A1",
   "usesRomanization": false,
-  "speechLang": "en-US"
+  "speechLang": "en-US",
+  "sampleWord": "en-water"
 }

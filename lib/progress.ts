@@ -7,6 +7,7 @@
 
 import { now } from "./clock";
 import { createLocalStore } from "./localStore";
+import { PROGRESS_KEY } from "./storageKeys";
 
 /* ---------- The shape of saved progress ---------- */
 
@@ -100,9 +101,8 @@ function normalizeProgress(data: unknown): Progress | null {
   return { version: 1, words, activeDays: saved.activeDays, practicedByDay };
 }
 
-// The name our data is stored under. The "v1" lets us change the shape
-// of the data later without mixing it up with old saves.
-const store = createLocalStore("kata.progress.v1", EMPTY_PROGRESS, normalizeProgress);
+// Saved under PROGRESS_KEY (see lib/storageKeys.ts).
+const store = createLocalStore(PROGRESS_KEY, EMPTY_PROGRESS, normalizeProgress);
 
 // Reads progress once, for example when a flashcard round starts.
 export const getProgress = store.get;

@@ -1,13 +1,15 @@
 "use client";
-// DEVELOPER ONLY. A small control in the top-left corner that pretends
-// it's a later day, for testing spaced repetition, streaks and the
-// two-day mastery rule.
+// DEVELOPER ONLY. A small "Dev" pill in the bottom-right corner that can
+// pretend it's a later day (for testing spaced repetition, streaks and
+// the two-day mastery rule) and show the welcome page again.
 //
 // app/layout.tsx only includes this while developing (npm run dev).
 // It is left out of the live site entirely.
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { getDevDayOffset, setDevDayOffset } from "@/lib/clock";
+import { WELCOMED_KEY } from "@/lib/storageKeys";
 import { useIsClient } from "@/lib/useIsClient";
 
 // When the live site is built, this line becomes "() => null", and the
@@ -18,6 +20,7 @@ export const DevDayControls =
 function DevDayControlsPanel() {
   const isClient = useIsClient();
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   // The offset is stored in the browser, so wait until we're there.
   if (!isClient) return null;
@@ -56,6 +59,18 @@ function DevDayControlsPanel() {
               Back to today
             </button>
           )}
+          {/* Forget that "Start learning" was tapped, and open the
+              welcome page, to test it again. */}
+          <button
+            type="button"
+            onClick={() => {
+              window.localStorage.removeItem(WELCOMED_KEY);
+              router.push("/welcome");
+            }}
+            className={button}
+          >
+            Show welcome again
+          </button>
         </>
       )}
     </div>

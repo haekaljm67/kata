@@ -45,19 +45,3 @@ export function buildRound(
 
   return [...due, ...fresh].slice(0, ROUND_SIZE);
 }
-
-// Picks a comfortable text size for the big word, so long words and
-// phrases fit on a phone without breaking awkwardly.
-// Japanese characters are about twice as wide as Latin letters.
-export function bigWordSizeClass(word: string): string {
-  let widthInEm = 0;
-  for (const char of word) {
-    widthInEm += /[　-鿿＀-￯]/.test(char) ? 1 : 0.58;
-  }
-  // The space available is roughly 260px on a small phone.
-  if (widthInEm * 72 <= 260) return "text-7xl";
-  if (widthInEm * 60 <= 260) return "text-6xl";
-  if (widthInEm * 48 <= 260) return "text-5xl";
-  if (widthInEm * 36 <= 260) return "text-4xl";
-  return "text-3xl";
-}

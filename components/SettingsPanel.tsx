@@ -4,7 +4,9 @@
 //
 // Rule for this page: only add settings for features that exist.
 
+import Link from "next/link";
 import { useState } from "react";
+import { ChevronRight } from "lucide-react";
 import { resetProgress } from "@/lib/progress";
 import { updateSettings, useSettings, type Settings } from "@/lib/settings";
 import { Segmented } from "./Segmented";
@@ -32,11 +34,8 @@ export function SettingsPanel({ languages, version }: SettingsPanelProps) {
     updateSettings({ [key]: value } as Partial<Settings>);
 
   return (
-    <section aria-labelledby="settings-heading" className="mt-12">
-      <h2 id="settings-heading" className="text-2xl font-bold tracking-tight">
-        Settings
-      </h2>
-
+    // The page title ("Settings") comes from app/profile/settings/page.tsx.
+    <div className="-mt-2">
       <Group title="Appearance">
         <Row label="Theme">
           <Segmented
@@ -173,8 +172,16 @@ export function SettingsPanel({ languages, version }: SettingsPanelProps) {
           </dl>
           <p>Version {version}</p>
         </div>
+        {/* The welcome page, always reachable from here. */}
+        <Link
+          href="/welcome"
+          className="flex items-center justify-between px-5 py-4 font-medium transition-colors hover:bg-ink/[0.03]"
+        >
+          About Kata
+          <ChevronRight size={18} className="text-muted" aria-hidden />
+        </Link>
       </Group>
-    </section>
+    </div>
   );
 }
 
