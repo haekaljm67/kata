@@ -2,9 +2,12 @@
 // The top part of a quiz question: the word, the sound, or the
 // sentence with a blank, depending on the question type.
 
+import { useState } from "react";
 import { Volume2 } from "lucide-react";
+import { RubyText } from "@/components/RubyText";
 import { bigWordSizeClass } from "@/lib/flashcards";
 import type { Question } from "@/lib/quiz";
+import { wordMarkup } from "@/lib/ruby";
 import type { Language } from "@/lib/types";
 
 const LABELS = {
@@ -31,20 +34,13 @@ export function QuestionPrompt({ question, language, answered, onPlay }: Questio
       </p>
 
       {question.type === "meaning" && (
-        <>
-          <p
-            lang={code}
-            className={`mt-4 font-semibold tracking-tight text-balance ${bigWordSizeClass(word.word)}`}
-          >
-            {word.word}
-          </p>
-          {/* Kanji words show their kana reading, for kana-first learners. */}
-          {word.reading && (
-            <p lang={code} className="mt-2 text-muted">
-              {word.reading}
-            </p>
-          )}
-        </>
+        // Kanji words show their kana reading above, for kana-first learners.
+        <p
+          lang={code}
+          className={`mt-4 font-semibold tracking-tight text-balance ${bigWordSizeClass(word.word)}`}
+        >
+          <RubyText text={wordMarkup(word)} />
+        </p>
       )}
 
       {question.type === "listening" && (
@@ -67,7 +63,7 @@ export function QuestionPrompt({ question, language, answered, onPlay }: Questio
           {/* After answering, show what was said. */}
           {answered && (
             <p lang={code} className="mt-2 text-xl font-semibold">
-              {word.word}
+              <RubyText text={wordMarkup(word)} />
             </p>
           )}
         </>
@@ -76,9 +72,11 @@ export function QuestionPrompt({ question, language, answered, onPlay }: Questio
       {question.type === "blank" && question.blank && (
         <>
           <p lang={code} className="mt-5 text-2xl leading-relaxed font-medium text-balance">
-            {question.blank.before}
+            <RubyText text={question.blank.before} />
             {answered ? (
-              <span className="text-clay-ink">{question.blank.answer}</span>
+              <span className="text-clay-ink">
+                <RubyText text={question.blank.answer} />
+              </span>
             ) : (
               <span
                 className="mx-1 inline-block w-16 border-b-2 border-ink/40 align-baseline"
@@ -87,13 +85,36 @@ export function QuestionPrompt({ question, language, answered, onPlay }: Questio
                 &nbsp;
               </span>
             )}
-            {question.blank.after}
+            <RubyText text={question.blank.after} />
           </p>
           {word.example.translation && (
-            <p className="mt-3 text-sm text-muted italic">{word.example.translation}</p>
+            <TranslationHint text={word.example.translation} answered={answered} />
           )}
         </>
       )}
     </div>
+  );
+}
+
+// The English translation stays hidden until the learner answers, so
+// they work from the sentence itself. A small hint can reveal it early.
+function TranslationHint({ text, answered }: { text: string; answered: boolean }) {
+  const [shown, setShown] = useState(false);
+
+  if (answered || shown) {
+    return (
+      <p className="mt-3 text-sm text-muted italic" aria-live="polite">
+        {text}
+      </p>
+    );
+  }
+  return (
+    <button
+      type="button"
+      onClick={() => setShown(true)}
+      className="mt-3 cursor-pointer rounded-full px-3 py-1.5 text-sm text-muted underline decoration-line underline-offset-4 hover:text-ink"
+    >
+      Show translation
+    </button>
   );
 }

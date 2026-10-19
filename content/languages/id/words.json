@@ -10,7 +10,15 @@
       "translation": "Thank you very much!"
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "The usual reply is sama-sama, “you're welcome”.",
+      "sound": "Every letter is said: te-ri-ma ka-sih. The h at the end is a soft breath.",
+      "blank": {
+        "tip": "Terima kasih banyak is a fixed phrase for “thank you very much”. Banyak means “a lot”.",
+        "wrongOptions": ["id-selamat-pagi", "id-ya", "id-besar"]
+      }
+    }
   },
   {
     "id": "id-air",
@@ -23,7 +31,11 @@
       "translation": "I'd like plain water."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Air putih (“white water”) is how Indonesians ask for plain drinking water.",
+      "sound": "Two syllables: a-ir. It never sounds like the English word “air”."
+    }
   },
   {
     "id": "id-rumah",
@@ -36,7 +48,11 @@
       "translation": "My house is near the school."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Rumah means both “house” and “home”. Di rumah means “at home”.",
+      "sound": "Two syllables: ru-mah, with a soft, breathy h at the end."
+    }
   },
   {
     "id": "id-selamat-pagi",
@@ -49,7 +65,11 @@
       "translation": "Good morning, Mrs. Sari!"
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Pagi is the morning, until about 11. Later in the day, say selamat siang, then selamat sore, then selamat malam.",
+      "sound": "Every letter is said: se-la-mat pa-gi. The g is always hard, like in “go”."
+    }
   },
   {
     "id": "id-maaf",
@@ -62,7 +82,15 @@
       "translation": "Sorry, I'm late."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Maaf works for “sorry” and “excuse me”. To be extra polite, say mohon maaf.",
+      "sound": "The two a's are said separately: ma-af, with a tiny break between them.",
+      "blank": {
+        "tip": "Terlambat means “late”. When you arrive late, you start with an apology.",
+        "wrongOptions": ["id-terima-kasih", "id-buku", "id-makan"]
+      }
+    }
   },
   {
     "id": "id-ya",
@@ -75,7 +103,15 @@
       "translation": "Yes, I'd like that."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "In casual speech, many people say iya, a softer form of ya.",
+      "sound": "One short syllable, like the “ya” in “yard”.",
+      "blank": {
+        "tip": "Saya mau means “I want it”, so the word before it has to be a “yes”.",
+        "wrongOptions": ["id-maaf", "id-besar", "id-rumah"]
+      }
+    }
   },
   {
     "id": "id-tidak",
@@ -88,7 +124,15 @@
       "translation": "I don't like coffee."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Tidak makes verbs and describing words negative. For nouns, Indonesian uses bukan instead.",
+      "sound": "The final k is barely said: ti-dak ends with a quick stop in the throat.",
+      "blank": {
+        "tip": "Tidak goes right before a verb like suka (“like”) to make it negative: tidak suka, “don't like”.",
+        "wrongOptions": ["id-maaf", "id-makan", "id-besar"]
+      }
+    }
   },
   {
     "id": "id-kucing",
@@ -101,7 +145,15 @@
       "translation": "That cat is cute."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Itu (“that”) comes after the noun in Indonesian: kucing itu, “that cat”.",
+      "sound": "The c is always said like the ch in “chair”: ku-ching.",
+      "blank": {
+        "tip": "Itu (“that”) comes right after a noun, so the blank needs a thing or animal.",
+        "wrongOptions": ["id-ya", "id-tidak", "id-besar"]
+      }
+    }
   },
   {
     "id": "id-anjing",
@@ -114,7 +166,11 @@
       "translation": "My dog is big."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Saya after a noun means “my”: anjing saya is “my dog”.",
+      "sound": "Two syllables: an-jing. The j is like the j in “jam”."
+    }
   },
   {
     "id": "id-buku",
@@ -127,7 +183,11 @@
       "translation": "This is my book."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Indonesian has no words for “a” or “the”, so buku can mean “a book” or “the book”.",
+      "sound": "Two short syllables: bu-ku. Each u is like the oo in “food”, but shorter."
+    }
   },
   {
     "id": "id-teman",
@@ -140,7 +200,15 @@
       "translation": "I'm going with a friend."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Teman is the everyday word for a friend. For a very close friend, people say sahabat.",
+      "sound": "The e is a short, soft “uh”: t'man, almost one quick syllable.",
+      "blank": {
+        "tip": "Dengan means “with”. You go somewhere with a person, like a friend.",
+        "wrongOptions": ["id-rumah", "id-air", "id-besar"]
+      }
+    }
   },
   {
     "id": "id-makan",
@@ -153,7 +221,15 @@
       "translation": "Let's eat!"
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Sudah makan? (“Have you eaten?”) is a friendly way to ask how someone is doing.",
+      "sound": "Two clear syllables: ma-kan. Both a's are short, like in “father”.",
+      "blank": {
+        "tip": "Ayo means “let's” and is followed by an action word (a verb), like makan.",
+        "wrongOptions": ["id-buku", "id-besar", "id-kucing"]
+      }
+    }
   },
   {
     "id": "id-besar",
@@ -166,6 +242,14 @@
       "translation": "Their house is really big."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "The opposite of besar is kecil, “small”. Sekali after a describing word means “very”: besar sekali.",
+      "sound": "The first e is a short “uh”: b'sar, with the weight on sar.",
+      "blank": {
+        "tip": "Sekali (“very”) comes after a describing word (an adjective), so the blank needs one, like besar.",
+        "wrongOptions": ["id-buku", "id-teman", "id-makan"]
+      }
+    }
   }
 ]

@@ -38,11 +38,23 @@ export function getLanguage(code: string): Language {
       `content/languages/${code}/language.json says its code is "${meta.code}". It should match the folder name "${code}".`,
     );
   }
+  const ids = new Set(words.map((w) => w.id));
   for (const word of words) {
+    const where = `Word "${word.id}" in ${code}/words.json`;
     if (!meta.levels.includes(word.level)) {
       throw new Error(
-        `Word "${word.id}" in ${code}/words.json has level "${word.level}", which isn't listed in ${code}/language.json.`,
+        `${where} has level "${word.level}", which isn't listed in ${code}/language.json.`,
       );
+    }
+    if (!word.teach?.meaning || !word.teach?.sound) {
+      throw new Error(`${where} needs "teach" notes with "meaning" and "sound".`);
+    }
+    for (const optionId of word.teach.blank?.wrongOptions ?? []) {
+      if (!ids.has(optionId) || optionId === word.id) {
+        throw new Error(
+          `${where} lists "${optionId}" as a wrong option, but that isn't another word in this language.`,
+        );
+      }
     }
   }
 

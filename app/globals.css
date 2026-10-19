@@ -101,6 +101,17 @@ body {
 }
 
 /*
+  Furigana: the small reading above a kanji. About half the size of the
+  kanji, but never smaller than 10px so it stays readable.
+*/
+rt {
+  font-size: max(0.45em, 10px);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--kata-muted);
+}
+
+/*
   Phones with a notch or a home bar have "safe areas" at the edges.
   These keep our content and bottom navigation out from under them.
 */

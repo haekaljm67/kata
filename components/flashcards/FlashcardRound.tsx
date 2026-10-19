@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Check, RotateCcw } from "lucide-react";
 import { Mascot } from "@/components/Mascot";
+import { RubyText } from "@/components/RubyText";
+import { wordMarkup } from "@/lib/ruby";
 import {
   buildRound,
   MISSED_CARD_GAP,
@@ -202,7 +204,7 @@ function RoundSummary({
                 lang={language.meta.code}
                 className="rounded-full border border-line px-3 py-1 text-sm"
               >
-                {w.word}
+                <RubyText text={wordMarkup(w)} />
               </li>
             ))}
           </ul>

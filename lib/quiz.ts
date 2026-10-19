@@ -6,6 +6,7 @@
 // "random" can be swapped out in tests to get the same quiz every time.
 
 import { getWordStatus, type Progress } from "./progress";
+import { plainText, wordMarkup } from "./ruby";
 import type { LanguageMeta, Word } from "./types";
 
 export const QUIZ_LENGTH = 10;
@@ -21,6 +22,7 @@ export type Question = {
 };
 
 // An example sentence split around the missing word.
+// Each piece may contain furigana markup.
 export type Blank = {
   before: string;
   answer: string; // the word exactly as written in the sentence
@@ -83,22 +85,30 @@ export function pickQuizWords(
 
 /* ---------- Fill in the blank ---------- */
 
-// Finds the word in its example sentence. Returns null if it isn't
-// there exactly as written (for example 食べる appears as 食べます),
-// in which case the word can't have a fill-in-the-blank question.
+// Finds the word in its example sentence. Returns null if the word
+// has no blank notes, or isn't in the sentence exactly as written
+// (for example 食べる appears as 食べます). Such words don't get
+// fill-in-the-blank questions.
+//
+// The sentence may contain furigana markup ({本|ほん}); the pieces
+// returned keep it, so readings still show around the blank.
 export function findBlank(word: Word, language: LanguageMeta): Blank | null {
+  if (!word.teach.blank) return null;
   const text = word.example.text;
 
   if (language.code === "ja") {
     // Japanese doesn't put spaces between words, so look for the
-    // exact characters.
-    const start = text.indexOf(word.word);
-    if (start === -1) return null;
-    return {
-      before: text.slice(0, start),
-      answer: word.word,
-      after: text.slice(start + word.word.length),
-    };
+    // exact characters: first with its reading markup, then without.
+    for (const form of [wordMarkup(word), word.word]) {
+      const start = text.indexOf(form);
+      if (start === -1) continue;
+      return {
+        before: text.slice(0, start),
+        answer: form,
+        after: text.slice(start + form.length),
+      };
+    }
+    return null;
   }
 
   // Other languages: match whole words only, ignoring capitals, so
@@ -115,27 +125,31 @@ export function findBlank(word: Word, language: LanguageMeta): Blank | null {
 
 /* ---------- Wrong options ---------- */
 
-// Picks believable wrong options: same level, the same kind of word
-// first, never one that shares the right answer's meaning.
+// Picks believable wrong options.
+// - Fill in the blank: the hand-picked options from words.json, which
+//   are chosen so that only one answer fits the sentence.
+// - Other questions: same level, the same kind of word first, never
+//   one that shares the right answer's meaning.
 export function pickDistractors(
   target: Word,
   words: Word[],
   type: QuestionType,
   random: Random = Math.random,
 ): Word[] {
+  if (type === "blank") {
+    const chosen = target.teach.blank?.wrongOptions ?? [];
+    return shuffle(
+      words.filter((w) => chosen.includes(w.id)),
+      random,
+    ).slice(0, OPTION_COUNT - 1);
+  }
+
   const candidates = words.filter(
     (w) =>
       w.id !== target.id &&
       w.level === target.level &&
       w.word !== target.word &&
-      !sharesMeaning(w, target) &&
-      // In a blank, "yes" and "no" could both fit ("___, thank you."),
-      // so answers are never options for each other there.
-      !(
-        type === "blank" &&
-        target.partOfSpeech === "answer" &&
-        w.partOfSpeech === "answer"
-      ),
+      !sharesMeaning(w, target),
   );
   const sameGroup = candidates.filter((w) => wordGroup(w) === wordGroup(target));
   const others = candidates.filter((w) => wordGroup(w) !== wordGroup(target));
@@ -213,7 +227,7 @@ function romanizationVariants(romanization: string): string[] {
 // and its romanization (for Japanese, so learners without a Japanese
 // keyboard can type "neko").
 export function isTypedAnswerCorrect(typed: string, word: Word, blank?: Blank): boolean {
-  const accepted = [word.word, word.reading, blank?.answer]
+  const accepted = [word.word, word.reading, blank && plainText(blank.answer)]
     .concat(word.romanization ? romanizationVariants(word.romanization) : [])
     .filter((a): a is string => Boolean(a))
     .map(tidyAnswer);
@@ -225,15 +239,11 @@ export function isTypedAnswerCorrect(typed: string, word: Word, blank?: Blank): 
 // The learner's choice: an option they tapped, or text they typed.
 export type Choice = { word: Word } | { typed: string };
 
-// How a word is written in an explanation: ねこ (neko), or just "cat".
+// How a word is written in an explanation: 本 with its reading above
+// and romanization after, like 本 (hon); or just "cat".
 function name(word: Word): string {
-  return word.romanization ? `${word.word} (${word.romanization})` : word.word;
-}
-
-// Quotes a sentence at the end of an explanation, adding a period
-// only if it doesn't already end with one (no “I like cats.”.).
-function endQuote(sentence: string): string {
-  return /[.!?。！？]$/.test(sentence) ? `“${sentence}”` : `“${sentence}”.`;
+  const written = wordMarkup(word);
+  return word.romanization ? `${written} (${word.romanization})` : written;
 }
 
 // Starts a sentence with a capital letter ("buku" → "Buku").
@@ -241,33 +251,30 @@ function capitalize(text: string): string {
   return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
-// One or two friendly sentences saying why an answer is right or wrong.
+// A short explanation that teaches one useful thing, using the notes
+// written for each word in words.json. The "Correct" / "Not quite"
+// heading is shown separately, so it's never repeated here.
+// The text may contain furigana markup; show it with <RubyText>.
 export function explain(question: Question, choice: Choice, correct: boolean): string {
   const { word } = question;
+  const { teach } = word;
   const picked = "word" in choice ? choice.word : null;
 
   if (question.type === "meaning") {
-    if (correct) return `Yes! ${name(word)} means “${word.meaning}”.`;
-    return `Not quite. ${name(word)} means “${word.meaning}”. The one you picked, “${picked!.meaning}”, is ${name(picked!)}.`;
+    if (correct) return teach.meaning;
+    // Say what it really means, then the tip.
+    return `${capitalize(name(word))} means “${word.meaning}”, not “${picked!.meaning}”. ${teach.meaning}`;
   }
 
   if (question.type === "listening") {
-    if (correct) return `Right, you heard ${name(word)}, which means “${word.meaning}”.`;
-    return `You heard ${name(word)}, which means “${word.meaning}”. ${capitalize(name(picked!))} sounds different and means “${picked!.meaning}”.`;
+    if (correct) return teach.sound;
+    return `That was ${name(word)}, “${word.meaning}”. ${teach.sound}`;
   }
 
-  // Fill in the blank.
-  const translation = word.example.translation;
-  if (correct) {
-    return translation
-      ? `Correct! With ${name(word)}, the sentence means ${endQuote(translation)}`
-      : `Correct! The full sentence is ${endQuote(word.example.text)}`;
-  }
-  const missing = `The missing word is ${name(word)}, “${word.meaning}”.`;
-  if (picked) {
-    return `${missing} ${capitalize(name(picked))} means “${picked.meaning}”, which doesn't fit here.`;
-  }
-  return translation
-    ? `${missing} The sentence means ${endQuote(translation)}`
-    : `${missing} The full sentence is ${endQuote(word.example.text)}`;
+  // Fill in the blank. The tip names the clue in the sentence; the hand-
+  // picked wrong options are all ruled out by that clue.
+  const tip = teach.blank?.tip ?? "";
+  if (correct) return tip;
+  if (picked) return `${tip} That's why ${name(picked)} doesn't fit here.`;
+  return `The missing word is ${name(word)}. ${tip}`;
 }

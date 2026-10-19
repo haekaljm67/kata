@@ -4,6 +4,8 @@
 
 import Link from "next/link";
 import { Mascot } from "@/components/Mascot";
+import { RubyText } from "@/components/RubyText";
+import { wordMarkup } from "@/lib/ruby";
 import type { Question } from "@/lib/quiz";
 import type { Language } from "@/lib/types";
 import type { Result } from "./QuizRound";
@@ -50,7 +52,7 @@ export function QuizResults({ questions, results, language, onNewQuiz }: QuizRes
             {toReview.map((word) => (
               <li key={word.id} className="flex items-baseline justify-between gap-4 px-4 py-3">
                 <span lang={language.meta.code} className="font-medium">
-                  {word.word}
+                  <RubyText text={wordMarkup(word)} />
                 </span>
                 <span className="text-right text-sm text-muted">{word.meaning}</span>
               </li>

@@ -3,7 +3,9 @@
 // card over to show the reading, meaning and an example sentence.
 
 import { useState } from "react";
+import { RubyText } from "@/components/RubyText";
 import { bigWordSizeClass } from "@/lib/flashcards";
+import { wordMarkup } from "@/lib/ruby";
 import type { LanguageMeta, Word } from "@/lib/types";
 
 type FlashcardProps = {
@@ -48,7 +50,8 @@ export function Flashcard({ word, language, flipped, onFlip }: FlashcardProps) {
             lang={code}
             className={`pointer-events-none font-semibold tracking-tight text-balance ${bigWordSizeClass(word.word)}`}
           >
-            {word.word}
+            {/* Kanji words show their kana reading above. */}
+            <RubyText text={wordMarkup(word)} />
           </p>
           {showHint && <RomanizationHint text={word.romanization!} />}
           <p className="pointer-events-none absolute bottom-6 text-xs text-muted">
@@ -85,8 +88,8 @@ export function Flashcard({ word, language, flipped, onFlip }: FlashcardProps) {
             </p>
 
             <div className="mt-7 w-full border-t border-line pt-6">
-              <p lang={code} className="text-lg leading-snug text-balance">
-                {word.example.text}
+              <p lang={code} className="text-lg leading-relaxed text-balance">
+                <RubyText text={word.example.text} />
               </p>
               {word.example.romanization && (
                 <p className="mt-1 text-sm text-muted">

@@ -12,7 +12,15 @@
       "translation": "Hello, nice to meet you."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "こんにちは is used from late morning to early evening. In the morning, people say おはよう or おはようございます instead.",
+      "sound": "The last は is said “wa”, not “ha”: kon-ni-chi-wa. It's a leftover from old spelling.",
+      "blank": {
+        "tip": "はじめまして means “nice to meet you”, and it follows a greeting when you meet someone for the first time.",
+        "wrongOptions": ["ja-arigatou", "ja-iie", "ja-hai"]
+      }
+    }
   },
   {
     "id": "ja-arigatou",
@@ -27,7 +35,15 @@
       "translation": "Thanks a lot."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "ありがとう is casual, for friends and family. With teachers or strangers, say ありがとうございます.",
+      "sound": "The う after ご stretches the o: a-ri-ga-tō, not a-ri-ga-to-u.",
+      "blank": {
+        "tip": "どうも means “very much” and usually comes right before words of thanks, like ありがとう.",
+        "wrongOptions": ["ja-hai", "ja-iie", "ja-mizu"]
+      }
+    }
   },
   {
     "id": "ja-mizu",
@@ -38,12 +54,20 @@
     "partOfSpeech": "noun",
     "level": "N5",
     "example": {
-      "text": "水をください。",
+      "text": "{水|みず}をください。",
       "romanization": "Mizu o kudasai.",
       "translation": "Water, please."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "{水|みず} means cold or room-temperature water. Hot water has its own word: おゆ.",
+      "sound": "Two short beats: mi-zu. The u at the end is soft and quick.",
+      "blank": {
+        "tip": "を comes right after the thing you're asking for, so the blank needs a noun: a thing, like water.",
+        "wrongOptions": ["ja-ookii", "ja-sumimasen", "ja-hai"]
+      }
+    }
   },
   {
     "id": "ja-ohayou",
@@ -58,7 +82,11 @@
       "translation": "Good morning, Yuki."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "おはよう is for family and friends. To be polite, say おはようございます.",
+      "sound": "The う makes the o long: o-ha-yō. Hold the last o for an extra beat."
+    }
   },
   {
     "id": "ja-sumimasen",
@@ -73,7 +101,15 @@
       "translation": "Excuse me, where is the restroom?"
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "すみません means both “excuse me” and “sorry”. It's also the polite way to call a waiter in a restaurant.",
+      "sound": "The first u is very light, so it can sound like “smi-ma-sen”. The ん at the end is a full beat.",
+      "blank": {
+        "tip": "Before asking a stranger a question, Japanese speakers start with すみません to get their attention.",
+        "wrongOptions": ["ja-arigatou", "ja-hai", "ja-iie"]
+      }
+    }
   },
   {
     "id": "ja-hai",
@@ -88,7 +124,15 @@
       "translation": "Yes, that's right."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "はい also means “I'm here” when a teacher calls your name, and “OK” when you agree to do something.",
+      "sound": "One quick syllable, like the English word “hi”.",
+      "blank": {
+        "tip": "そうです means “that's right”, so the word before it has to be a “yes”.",
+        "wrongOptions": ["ja-sumimasen", "ja-arigatou", "ja-konnichiwa"]
+      }
+    }
   },
   {
     "id": "ja-iie",
@@ -103,7 +147,15 @@
       "translation": "No, that's not right."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "いいえ can sound quite direct. It's also a polite reply when someone thanks you, like “not at all”.",
+      "sound": "Three beats: i-i-e. Don't shorten it to いえ (ie), which means “house”.",
+      "blank": {
+        "tip": "ちがいます means “that's not right”, so the word before it has to be a “no”.",
+        "wrongOptions": ["ja-arigatou", "ja-konnichiwa", "ja-ohayou"]
+      }
+    }
   },
   {
     "id": "ja-neko",
@@ -118,7 +170,15 @@
       "translation": "I like cats."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Japanese nouns have no plural form, so ねこ can mean “a cat” or “cats”.",
+      "sound": "Each kana is one beat of the same length: ne-ko.",
+      "blank": {
+        "tip": "が marks the thing you like, so the blank needs a noun: a thing, animal or person. Describing words like {大|おお}きい need a noun after them.",
+        "wrongOptions": ["ja-ookii", "ja-arigatou", "ja-hai"]
+      }
+    }
   },
   {
     "id": "ja-inu",
@@ -133,7 +193,15 @@
       "translation": "We have a dog at home."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "いぬ is the everyday word. Small children often say わんわん, like “woof woof”.",
+      "sound": "Two short beats: i-nu. Keep the u short and relaxed.",
+      "blank": {
+        "tip": "います is used for living things like people and animals. For objects, Japanese uses あります.",
+        "wrongOptions": ["ja-hon", "ja-mizu"]
+      }
+    }
   },
   {
     "id": "ja-hon",
@@ -144,12 +212,20 @@
     "partOfSpeech": "noun",
     "level": "N5",
     "example": {
-      "text": "この本はおもしろいです。",
+      "text": "この{本|ほん}はおもしろいです。",
       "romanization": "Kono hon wa omoshiroi desu.",
       "translation": "This book is interesting."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "{本|ほん} also appears in {日本|にほん}, the name of Japan, where it means “origin”.",
+      "sound": "Two beats: ho-n. In Japanese, ん counts as a full beat on its own.",
+      "blank": {
+        "tip": "この means “this” and must be followed by a noun, a thing like a book.",
+        "wrongOptions": ["ja-ookii", "ja-hai", "ja-sumimasen"]
+      }
+    }
   },
   {
     "id": "ja-tomodachi",
@@ -160,12 +236,20 @@
     "partOfSpeech": "noun",
     "level": "N5",
     "example": {
-      "text": "友だちと話します。",
+      "text": "{友|とも}だちと{話|はな}します。",
       "romanization": "Tomodachi to hanashimasu.",
       "translation": "I talk with my friend."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "{友|とも}だち is also written {友達|ともだち}. The だち part once made it plural, but today it means one friend or many.",
+      "sound": "Four even beats: to-mo-da-chi. ち sounds like “chee”.",
+      "blank": {
+        "tip": "と here means “with”, and {話|はな}します means “talk”, so the blank is a person you can talk with.",
+        "wrongOptions": ["ja-hon", "ja-mizu", "ja-ookii"]
+      }
+    }
   },
   {
     "id": "ja-taberu",
@@ -176,12 +260,16 @@
     "partOfSpeech": "verb",
     "level": "N5",
     "example": {
-      "text": "パンを食べます。",
+      "text": "パンを{食|た}べます。",
       "romanization": "Pan o tabemasu.",
       "translation": "I eat bread."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "{食|た}べる is the dictionary form. In polite speech it becomes {食|た}べます, as in the example sentence.",
+      "sound": "Three even beats: ta-be-ru. The Japanese r is a light tap, somewhere between r, l and d."
+    }
   },
   {
     "id": "ja-ookii",
@@ -192,11 +280,19 @@
     "partOfSpeech": "adjective",
     "level": "N5",
     "example": {
-      "text": "大きいいぬですね。",
+      "text": "{大|おお}きいいぬですね。",
       "romanization": "Ōkii inu desu ne.",
       "translation": "That's a big dog, isn't it?"
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Describing words ending in い go right before the noun, like {大|おお}きいいぬ, “a big dog”. The opposite is {小|ちい}さい, “small”.",
+      "sound": "Four beats: o-o-ki-i. Both the o and the i are long.",
+      "blank": {
+        "tip": "The blank describes the dog, so it needs a describing word (an adjective), like “big”. Two nouns can't sit side by side like this.",
+        "wrongOptions": ["ja-neko", "ja-hon", "ja-tomodachi"]
+      }
+    }
   }
 ]

@@ -9,7 +9,11 @@
       "text": "Hello, my name is Sam."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Hello works anywhere, formal or casual. With friends, people often just say hi.",
+      "sound": "The weight is on the second part: heh-LOH."
+    }
   },
   {
     "id": "en-water",
@@ -21,7 +25,15 @@
       "text": "Can I have some water, please?"
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "You can't count water, so say “some water” or “a glass of water”, not “a water”.",
+      "sound": "In American English, the t often sounds like a quick d: WAH-der.",
+      "blank": {
+        "tip": "After “some”, English uses a word you can't count, like water, or a plural, like “books”.",
+        "wrongOptions": ["en-book", "en-cat", "en-house"]
+      }
+    }
   },
   {
     "id": "en-house",
@@ -33,7 +45,11 @@
       "text": "This is my house."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "A house is the building. Home is the place where you live and belong, whatever the building.",
+      "sound": "One syllable with the “ow” sound of “now”: h-ow-s."
+    }
   },
   {
     "id": "en-good-morning",
@@ -45,7 +61,15 @@
       "text": "Good morning! Did you sleep well?"
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Use it until about noon. After that, say good afternoon, and good evening after about 6 p.m.",
+      "sound": "The weight is on the second word: good MOR-ning.",
+      "blank": {
+        "tip": "“Did you sleep well?” is a question for the start of the day, so it follows a morning greeting.",
+        "wrongOptions": ["en-sorry", "en-yes", "en-no"]
+      }
+    }
   },
   {
     "id": "en-sorry",
@@ -57,7 +81,11 @@
       "text": "Sorry, I'm late."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Sorry apologizes. To get someone's attention, say excuse me instead.",
+      "sound": "The weight is on the first part: SOR-ee."
+    }
   },
   {
     "id": "en-yes",
@@ -69,7 +97,11 @@
       "text": "Yes, I'd like some tea."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "In casual speech, people often say yeah or sure instead of yes.",
+      "sound": "One quick syllable that rhymes with “less”."
+    }
   },
   {
     "id": "en-no",
@@ -81,7 +113,15 @@
       "text": "No, thank you."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Adding “thank you” after no makes a refusal sound polite.",
+      "sound": "A long o that glides, rhyming with “go”.",
+      "blank": {
+        "tip": "“No, thank you” is the polite way to turn down an offer.",
+        "wrongOptions": ["en-hello", "en-sorry", "en-big"]
+      }
+    }
   },
   {
     "id": "en-cat",
@@ -93,7 +133,11 @@
       "text": "My cat sleeps all day."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "A young cat is a kitten.",
+      "sound": "A short a, like in “hat”."
+    }
   },
   {
     "id": "en-dog",
@@ -105,7 +149,11 @@
       "text": "The dog is in the garden."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "A young dog is a puppy.",
+      "sound": "One syllable. Make the g clear at the end, so it doesn't sound like “dock”."
+    }
   },
   {
     "id": "en-book",
@@ -117,7 +165,15 @@
       "text": "I'm reading a good book."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Book is also a verb: to book a table means to reserve one.",
+      "sound": "The oo is short, like in “look”, not long like in “food”.",
+      "blank": {
+        "tip": "You read things with words in them, like a book.",
+        "wrongOptions": ["en-cat", "en-house", "en-friend"]
+      }
+    }
   },
   {
     "id": "en-friend",
@@ -129,7 +185,15 @@
       "text": "She is my best friend."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Your best friend is the one friend you're closest to.",
+      "sound": "The ie sounds like a short e: “frend”. The i is silent.",
+      "blank": {
+        "tip": "“She” refers to a person, so the blank needs a word for a person.",
+        "wrongOptions": ["en-book", "en-house", "en-water"]
+      }
+    }
   },
   {
     "id": "en-eat",
@@ -141,7 +205,15 @@
       "text": "We eat dinner at seven."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Eat has an irregular past form: today I eat, yesterday I ate.",
+      "sound": "One long “ee” sound, then a light t: eet.",
+      "blank": {
+        "tip": "After “we”, the sentence needs an action word (a verb), like eat.",
+        "wrongOptions": ["en-big", "en-water", "en-cat"]
+      }
+    }
   },
   {
     "id": "en-big",
@@ -153,6 +225,14 @@
       "text": "That's a big house."
     },
     "audio": null,
-    "nativeCheck": "needed"
+    "nativeCheck": "needed",
+    "teach": {
+      "meaning": "Big and large mean almost the same, but big is more common in everyday speech.",
+      "sound": "A short i, like in “sit”.",
+      "blank": {
+        "tip": "A describing word (an adjective) like big goes right before the noun it describes.",
+        "wrongOptions": ["en-book", "en-friend", "en-eat"]
+      }
+    }
   }
 ]

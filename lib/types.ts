@@ -20,6 +20,7 @@ export type LanguageMeta = {
 
 // An example sentence that shows a word in use.
 export type ExampleSentence = {
+  // Kanji can carry readings, written {漢字|かんじ}. See lib/ruby.ts.
   text: string;
   romanization?: string;
   // The meaning in English, the interface language.
@@ -34,6 +35,22 @@ export type AudioClip = {
   license: string;
 };
 
+// Short teaching notes shown after quiz answers. Each one teaches one
+// useful thing, rather than repeating the answer.
+export type TeachingNotes = {
+  meaning: string; // about using the word (multiple choice questions)
+  sound: string; // about saying the word (listening questions)
+  // For fill-in-the-blank questions. Leave it out if the example
+  // sentence has no clear clue (if several words could fit the blank).
+  blank?: {
+    tip: string; // the clue in the sentence that points to the answer
+    // Hand-picked wrong options (word ids from the same language).
+    // Each one must clearly NOT fit, so the quiz never has two right
+    // answers. The tip should explain why they don't fit.
+    wrongOptions: string[];
+  };
+};
+
 // One entry in words.json.
 export type Word = {
   id: string; // unique across all languages: "ja-mizu"
@@ -45,6 +62,7 @@ export type Word = {
   level: string; // one of the language's levels: "A1", "N5"
   example: ExampleSentence;
   audio: AudioClip | null; // null means: use the browser's text-to-speech
+  teach: TeachingNotes;
   nativeCheck: "needed" | "done"; // has a native speaker reviewed this?
 };
 

@@ -12,7 +12,9 @@ import {
   type Choice,
   type Question,
 } from "@/lib/quiz";
+import { wordMarkup } from "@/lib/ruby";
 import { speak } from "@/lib/speech";
+import { RubyText } from "@/components/RubyText";
 import type { Language, Word } from "@/lib/types";
 import { QuestionPrompt } from "./QuestionPrompt";
 import { QuizResults } from "./QuizResults";
@@ -136,6 +138,8 @@ export function QuizRound({ language, voice, onNewQuiz }: QuizRoundProps) {
       </div>
 
       <QuestionPrompt
+        // A fresh prompt for every question, so hints start hidden again.
+        key={index}
         question={question}
         language={language}
         answered={Boolean(result)}
@@ -190,7 +194,7 @@ export function QuizRound({ language, voice, onNewQuiz }: QuizRoundProps) {
             </p>
             {/* role="status" reads the explanation out to screen readers. */}
             <p role="status" className="mt-1.5 leading-relaxed">
-              {explain(question, result.choice, result.correct)}
+              <RubyText text={explain(question, result.choice, result.correct)} />
             </p>
             {voice && question.type !== "listening" && (
               <button
@@ -273,7 +277,7 @@ function OptionButton({
         lang={showsWord ? language.meta.code : undefined}
         className={`flex-1 ${showsWord ? "text-lg font-medium" : "font-medium"}`}
       >
-        {showsWord ? option.word : option.meaning}
+        {showsWord ? <RubyText text={wordMarkup(option)} /> : option.meaning}
       </span>
       {result && isRight && <Check size={20} strokeWidth={2.6} aria-label="Right answer" />}
       {result && wasPicked && !isRight && <X size={20} strokeWidth={2.4} aria-label="Your answer" />}
