@@ -30,8 +30,20 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# SECRETS: never upload these.
+# .env files hold keys and passwords (for example Supabase keys later).
 .env*
+# ...except a template with empty values, which is safe to share.
+!.env.example
+# Private keys and certificates.
+*.key
+*.p12
+*.pfx
+# Supabase's local working files (some contain project details).
+supabase/.temp/
+supabase/.branches/
+# Claude Code's personal settings for this computer.
+.claude/settings.local.json
 
 # vercel
 .vercel
