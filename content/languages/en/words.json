@@ -34,5 +34,125 @@
     },
     "audio": null,
     "nativeCheck": "needed"
+  },
+  {
+    "id": "en-good-morning",
+    "word": "good morning",
+    "meaning": "a greeting used before noon",
+    "partOfSpeech": "greeting",
+    "level": "A1",
+    "example": {
+      "text": "Good morning! Did you sleep well?"
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "en-sorry",
+    "word": "sorry",
+    "meaning": "what you say after a small mistake",
+    "partOfSpeech": "expression",
+    "level": "A1",
+    "example": {
+      "text": "Sorry, I'm late."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "en-yes",
+    "word": "yes",
+    "meaning": "the word for agreeing",
+    "partOfSpeech": "answer",
+    "level": "A1",
+    "example": {
+      "text": "Yes, I'd like some tea."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "en-no",
+    "word": "no",
+    "meaning": "the word for disagreeing or saying you don't want something",
+    "partOfSpeech": "answer",
+    "level": "A1",
+    "example": {
+      "text": "No, thank you."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "en-cat",
+    "word": "cat",
+    "meaning": "a small furry animal often kept as a pet",
+    "partOfSpeech": "noun",
+    "level": "A1",
+    "example": {
+      "text": "My cat sleeps all day."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "en-dog",
+    "word": "dog",
+    "meaning": "an animal often kept as a pet, that barks",
+    "partOfSpeech": "noun",
+    "level": "A1",
+    "example": {
+      "text": "The dog is in the garden."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "en-book",
+    "word": "book",
+    "meaning": "pages with writing, bound together to read",
+    "partOfSpeech": "noun",
+    "level": "A1",
+    "example": {
+      "text": "I'm reading a good book."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "en-friend",
+    "word": "friend",
+    "meaning": "a person you know well and like",
+    "partOfSpeech": "noun",
+    "level": "A1",
+    "example": {
+      "text": "She is my best friend."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "en-eat",
+    "word": "eat",
+    "meaning": "to put food in your mouth and swallow it",
+    "partOfSpeech": "verb",
+    "level": "A1",
+    "example": {
+      "text": "We eat dinner at seven."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "en-big",
+    "word": "big",
+    "meaning": "large in size",
+    "partOfSpeech": "adjective",
+    "level": "A1",
+    "example": {
+      "text": "That's a big house."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
   }
 ]

@@ -21,4 +21,4 @@ To stop the site, click the terminal and press `Ctrl + C`.
 
 ## Built with
 
-Next.js, Tailwind CSS and Lucide icons. Fonts: Fraunces, Figtree and Zen Kaku Gothic New (Google Fonts, Open Font License).
+Next.js, Tailwind CSS and Lucide icons. Fonts: Plus Jakarta Sans and Zen Kaku Gothic New (Google Fonts, Open Font License).

@@ -24,7 +24,7 @@ export default function CollectionPage() {
             <div className="mb-3 flex items-baseline justify-between gap-3">
               <h2
                 id={`lang-${meta.code}`}
-                className="font-display text-2xl font-medium"
+                className="text-xl font-semibold tracking-tight"
               >
                 {meta.name}
               </h2>
@@ -46,7 +46,7 @@ export default function CollectionPage() {
                   <div className="shrink-0">
                     <p
                       lang={meta.code}
-                      className={`text-lg font-medium whitespace-nowrap ${meta.code === "ja" ? "font-ja" : ""}`}
+                      className="text-lg font-medium whitespace-nowrap"
                     >
                       {word.word}
                     </p>

@@ -13,7 +13,7 @@ export function PageHeader({ eyebrow, title, intro }: PageHeaderProps) {
       <p className="text-xs font-semibold tracking-[0.16em] text-sage-ink uppercase">
         {eyebrow}
       </p>
-      <h1 className="mt-2 font-display text-[2.5rem] leading-[1.05] font-medium tracking-tight">
+      <h1 className="mt-2 text-[2.25rem] leading-[1.1] font-bold tracking-[-0.03em]">
         {title}
       </h1>
       {intro && (

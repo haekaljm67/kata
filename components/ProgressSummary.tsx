@@ -23,7 +23,7 @@ export function ProgressSummary() {
 
       <div className="rounded-3xl border border-line bg-surface p-6">
         <p className="text-sm text-muted">Daily streak</p>
-        <p className="mt-1 font-display text-5xl font-medium tracking-tight">
+        <p className="mt-1 text-5xl font-semibold tracking-[-0.03em] tabular-nums">
           {streak}
           <span className="ml-2 font-sans text-base font-normal text-muted">
             {streak === 1 ? "day" : "days"}
@@ -40,7 +40,7 @@ export function ProgressSummary() {
             className="flex flex-col justify-between gap-2 rounded-2xl border border-line bg-surface px-4 py-4"
           >
             <dt className="text-xs leading-snug text-muted">{stat.label}</dt>
-            <dd className="font-display text-3xl font-medium">
+            <dd className="text-3xl font-semibold tracking-tight tabular-nums">
               {stat.value}
             </dd>
           </div>

@@ -37,5 +37,135 @@
     },
     "audio": null,
     "nativeCheck": "needed"
+  },
+  {
+    "id": "id-selamat-pagi",
+    "word": "selamat pagi",
+    "meaning": "good morning",
+    "partOfSpeech": "greeting",
+    "level": "A1",
+    "example": {
+      "text": "Selamat pagi, Bu Sari!",
+      "translation": "Good morning, Mrs. Sari!"
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "id-maaf",
+    "word": "maaf",
+    "meaning": "sorry; excuse me",
+    "partOfSpeech": "expression",
+    "level": "A1",
+    "example": {
+      "text": "Maaf, saya terlambat.",
+      "translation": "Sorry, I'm late."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "id-ya",
+    "word": "ya",
+    "meaning": "yes",
+    "partOfSpeech": "answer",
+    "level": "A1",
+    "example": {
+      "text": "Ya, saya mau.",
+      "translation": "Yes, I'd like that."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "id-tidak",
+    "word": "tidak",
+    "meaning": "no; not",
+    "partOfSpeech": "answer",
+    "level": "A1",
+    "example": {
+      "text": "Saya tidak suka kopi.",
+      "translation": "I don't like coffee."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "id-kucing",
+    "word": "kucing",
+    "meaning": "cat",
+    "partOfSpeech": "noun",
+    "level": "A1",
+    "example": {
+      "text": "Kucing itu lucu.",
+      "translation": "That cat is cute."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "id-anjing",
+    "word": "anjing",
+    "meaning": "dog",
+    "partOfSpeech": "noun",
+    "level": "A1",
+    "example": {
+      "text": "Anjing saya besar.",
+      "translation": "My dog is big."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "id-buku",
+    "word": "buku",
+    "meaning": "book",
+    "partOfSpeech": "noun",
+    "level": "A1",
+    "example": {
+      "text": "Ini buku saya.",
+      "translation": "This is my book."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "id-teman",
+    "word": "teman",
+    "meaning": "friend",
+    "partOfSpeech": "noun",
+    "level": "A1",
+    "example": {
+      "text": "Saya pergi dengan teman.",
+      "translation": "I'm going with a friend."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "id-makan",
+    "word": "makan",
+    "meaning": "to eat",
+    "partOfSpeech": "verb",
+    "level": "A1",
+    "example": {
+      "text": "Ayo makan!",
+      "translation": "Let's eat!"
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "id-besar",
+    "word": "besar",
+    "meaning": "big",
+    "partOfSpeech": "adjective",
+    "level": "A1",
+    "example": {
+      "text": "Rumahnya besar sekali.",
+      "translation": "Their house is really big."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
   }
 ]

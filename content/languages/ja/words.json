@@ -44,5 +44,159 @@
     },
     "audio": null,
     "nativeCheck": "needed"
+  },
+  {
+    "id": "ja-ohayou",
+    "word": "おはよう",
+    "romanization": "ohayō",
+    "meaning": "good morning (casual)",
+    "partOfSpeech": "greeting",
+    "level": "N5",
+    "example": {
+      "text": "おはよう、ゆきさん。",
+      "romanization": "Ohayō, Yuki-san.",
+      "translation": "Good morning, Yuki."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "ja-sumimasen",
+    "word": "すみません",
+    "romanization": "sumimasen",
+    "meaning": "excuse me; sorry",
+    "partOfSpeech": "expression",
+    "level": "N5",
+    "example": {
+      "text": "すみません、トイレはどこですか。",
+      "romanization": "Sumimasen, toire wa doko desu ka.",
+      "translation": "Excuse me, where is the restroom?"
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "ja-hai",
+    "word": "はい",
+    "romanization": "hai",
+    "meaning": "yes",
+    "partOfSpeech": "answer",
+    "level": "N5",
+    "example": {
+      "text": "はい、そうです。",
+      "romanization": "Hai, sō desu.",
+      "translation": "Yes, that's right."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "ja-iie",
+    "word": "いいえ",
+    "romanization": "iie",
+    "meaning": "no",
+    "partOfSpeech": "answer",
+    "level": "N5",
+    "example": {
+      "text": "いいえ、ちがいます。",
+      "romanization": "Iie, chigaimasu.",
+      "translation": "No, that's not right."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "ja-neko",
+    "word": "ねこ",
+    "romanization": "neko",
+    "meaning": "cat",
+    "partOfSpeech": "noun",
+    "level": "N5",
+    "example": {
+      "text": "ねこがすきです。",
+      "romanization": "Neko ga suki desu.",
+      "translation": "I like cats."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "ja-inu",
+    "word": "いぬ",
+    "romanization": "inu",
+    "meaning": "dog",
+    "partOfSpeech": "noun",
+    "level": "N5",
+    "example": {
+      "text": "うちにいぬがいます。",
+      "romanization": "Uchi ni inu ga imasu.",
+      "translation": "We have a dog at home."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "ja-hon",
+    "word": "本",
+    "reading": "ほん",
+    "romanization": "hon",
+    "meaning": "book",
+    "partOfSpeech": "noun",
+    "level": "N5",
+    "example": {
+      "text": "この本はおもしろいです。",
+      "romanization": "Kono hon wa omoshiroi desu.",
+      "translation": "This book is interesting."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "ja-tomodachi",
+    "word": "友だち",
+    "reading": "ともだち",
+    "romanization": "tomodachi",
+    "meaning": "friend",
+    "partOfSpeech": "noun",
+    "level": "N5",
+    "example": {
+      "text": "友だちと話します。",
+      "romanization": "Tomodachi to hanashimasu.",
+      "translation": "I talk with my friend."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "ja-taberu",
+    "word": "食べる",
+    "reading": "たべる",
+    "romanization": "taberu",
+    "meaning": "to eat",
+    "partOfSpeech": "verb",
+    "level": "N5",
+    "example": {
+      "text": "パンを食べます。",
+      "romanization": "Pan o tabemasu.",
+      "translation": "I eat bread."
+    },
+    "audio": null,
+    "nativeCheck": "needed"
+  },
+  {
+    "id": "ja-ookii",
+    "word": "大きい",
+    "reading": "おおきい",
+    "romanization": "ōkii",
+    "meaning": "big",
+    "partOfSpeech": "adjective",
+    "level": "N5",
+    "example": {
+      "text": "大きいいぬですね。",
+      "romanization": "Ōkii inu desu ne.",
+      "translation": "That's a big dog, isn't it?"
+    },
+    "audio": null,
+    "nativeCheck": "needed"
   }
 ]

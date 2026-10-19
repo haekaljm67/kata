@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Figtree, Fraunces, Zen_Kaku_Gothic_New } from "next/font/google";
+import { Plus_Jakarta_Sans, Zen_Kaku_Gothic_New } from "next/font/google";
 import { BottomNav } from "@/components/BottomNav";
 import "./globals.css";
 
@@ -9,18 +9,10 @@ import "./globals.css";
   serves them from our own site, so visitors never connect to Google.
 */
 
-// Fraunces: a soft, warm serif for headings and big words.
-// "SOFT" rounds its corners a little; "opsz" adjusts it for large sizes.
-const fraunces = Fraunces({
+// Plus Jakarta Sans: all interface text, including headings.
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
-  axes: ["SOFT", "opsz"],
-  variable: "--font-fraunces",
-});
-
-// Figtree: a clean, friendly font for everyday text and buttons.
-const figtree = Figtree({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-figtree",
+  variable: "--font-jakarta",
 });
 
 // Zen Kaku Gothic New: a calm Japanese font.
@@ -59,7 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${figtree.variable} ${zenKaku.variable} antialiased`}
+      className={`${jakarta.variable} ${zenKaku.variable} antialiased`}
     >
       <body className="min-h-dvh bg-paper font-sans text-ink">
         <main className="app-main mx-auto w-full max-w-xl px-5 sm:px-8">

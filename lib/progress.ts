@@ -2,20 +2,20 @@
 // It stays on this device and needs no account. Only use it from
 // components that start with "use client", since it needs the browser.
 //
-// Everything about saving lives in this one file. When we add accounts
-// (Supabase) later, this is the only file that needs to change.
+// Everything about saving progress lives in this one file. When we add
+// accounts (Supabase) later, this is the only file that needs to change.
 
-import { useSyncExternalStore } from "react";
+import { createLocalStore } from "./localStore";
 
-// The name our data is stored under. The "v1" lets us change the shape
-// of the data later without mixing it up with old saves.
-const STORAGE_KEY = "kata.progress.v1";
+/* ---------- The shape of saved progress ---------- */
 
 // What we remember about each word.
 export type WordProgress = {
   correctDays: string[]; // days the word was answered correctly, "2026-10-19"
   lastResult: "know" | "missed" | null; // the most recent answer
   lastSeenAt: string | null; // when it was last practiced
+  step: number; // how far along the review schedule it is (0 = start)
+  dueDay: string | null; // the day it should come back, "2026-10-22"
 };
 
 // Everything we save.
@@ -29,9 +29,17 @@ export type WordStatus = "new" | "learning" | "mastered" | "needs-practice";
 
 const EMPTY_PROGRESS: Progress = { version: 1, words: {}, activeDays: [] };
 
+/* ---------- The review schedule (spaced repetition) ---------- */
+
+// After each "Know", a word waits longer before it comes back:
+// 1 day, then 3, 7, 14 and 30 days. A "Missed" sends it back to the
+// start, so it comes back right away.
+export const REVIEW_INTERVALS_IN_DAYS = [1, 3, 7, 14, 30];
+
 /* ---------- Dates ---------- */
 
-// Today's date in the learner's own time zone, as "2026-10-19".
+// A date in the learner's own time zone, as "2026-10-19".
+// Written this way, dates also sort correctly as plain text.
 export function dayKey(date: Date = new Date()): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -39,79 +47,53 @@ export function dayKey(date: Date = new Date()): string {
   return `${year}-${month}-${day}`;
 }
 
+// Adds days to a "2026-10-19" date, handling month and year changes.
+export function addDays(day: string, days: number): string {
+  const [year, month, date] = day.split("-").map(Number);
+  return dayKey(new Date(year, month - 1, date + days));
+}
+
 /* ---------- Reading and writing ---------- */
 
-// The progress currently in memory. Loaded from storage the first time
-// it's needed, then kept here so every component sees the same data.
-let current: Progress | null = null;
-
-function loadFromStorage(): Progress {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return EMPTY_PROGRESS;
-    const data = JSON.parse(raw);
-    // Only accept data in the shape we expect. Anything else (an old or
-    // damaged save) is ignored rather than breaking the site.
-    if (
-      data?.version === 1 &&
-      typeof data.words === "object" &&
-      Array.isArray(data.activeDays)
-    ) {
-      return data as Progress;
-    }
-  } catch {
-    // Storage can be blocked (some private browsing modes). Start fresh.
-  }
-  return EMPTY_PROGRESS;
-}
-
-export function getProgress(): Progress {
-  if (current === null) current = loadFromStorage();
-  return current;
-}
-
-function setProgress(next: Progress) {
-  current = next;
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-  } catch {
-    // If saving fails, progress still works until the page is closed.
-  }
-  notifyListeners();
-}
-
-/* ---------- Telling components about changes ---------- */
-
-const listeners = new Set<() => void>();
-
-function notifyListeners() {
-  listeners.forEach((listener) => listener());
-}
-
-// Called by React to get updates. Also listens for changes made in
-// another tab, so two open tabs stay in sync.
-function subscribe(listener: () => void) {
-  listeners.add(listener);
-
-  const onStorage = (event: StorageEvent) => {
-    if (event.key === STORAGE_KEY) {
-      current = loadFromStorage();
-      listener();
-    }
-  };
-  window.addEventListener("storage", onStorage);
-
-  return () => {
-    listeners.delete(listener);
-    window.removeEventListener("storage", onStorage);
+// Fills in anything missing from an older save, so the rest of the
+// code can always count on every field being there.
+function normalizeWord(entry: Partial<WordProgress>): WordProgress {
+  return {
+    correctDays: Array.isArray(entry.correctDays) ? entry.correctDays : [],
+    lastResult: entry.lastResult ?? null,
+    lastSeenAt: entry.lastSeenAt ?? null,
+    step: typeof entry.step === "number" ? entry.step : 0,
+    dueDay: entry.dueDay ?? null,
   };
 }
 
-// Use this in a component to read progress. The component updates
-// automatically whenever progress changes. While the page is being
-// built on the server there's no browser storage, so it starts empty.
+function normalizeProgress(data: unknown): Progress | null {
+  const saved = data as Partial<Progress> | null;
+  if (
+    saved?.version !== 1 ||
+    typeof saved.words !== "object" ||
+    saved.words === null ||
+    !Array.isArray(saved.activeDays)
+  ) {
+    return null;
+  }
+  const words: Record<string, WordProgress> = {};
+  for (const [id, entry] of Object.entries(saved.words)) {
+    words[id] = normalizeWord(entry);
+  }
+  return { version: 1, words, activeDays: saved.activeDays };
+}
+
+// The name our data is stored under. The "v1" lets us change the shape
+// of the data later without mixing it up with old saves.
+const store = createLocalStore("kata.progress.v1", EMPTY_PROGRESS, normalizeProgress);
+
+// Reads progress once, for example when a flashcard round starts.
+export const getProgress = store.get;
+
+// Reads progress in a component, which then updates automatically.
 export function useProgress(): Progress {
-  return useSyncExternalStore(subscribe, getProgress, () => EMPTY_PROGRESS);
+  return store.useValue();
 }
 
 /* ---------- Actions ---------- */
@@ -120,11 +102,20 @@ export function useProgress(): Progress {
 export function recordAnswer(wordId: string, result: "know" | "missed") {
   const progress = getProgress();
   const today = dayKey();
-  const previous: WordProgress = progress.words[wordId] ?? {
-    correctDays: [],
-    lastResult: null,
-    lastSeenAt: null,
-  };
+  const previous = normalizeWord(progress.words[wordId] ?? {});
+
+  let step: number;
+  let dueDay: string;
+  if (result === "know") {
+    // Move one step along the schedule (stopping at the last step) and
+    // wait that step's number of days.
+    step = Math.min(previous.step + 1, REVIEW_INTERVALS_IN_DAYS.length);
+    dueDay = addDays(today, REVIEW_INTERVALS_IN_DAYS[step - 1]);
+  } else {
+    // Back to the start, and due again right away.
+    step = 0;
+    dueDay = today;
+  }
 
   // Each day counts once, however many times the word is answered.
   const correctDays =
@@ -132,7 +123,7 @@ export function recordAnswer(wordId: string, result: "know" | "missed") {
       ? [...previous.correctDays, today]
       : previous.correctDays;
 
-  setProgress({
+  store.set({
     ...progress,
     words: {
       ...progress.words,
@@ -140,6 +131,8 @@ export function recordAnswer(wordId: string, result: "know" | "missed") {
         correctDays,
         lastResult: result,
         lastSeenAt: new Date().toISOString(),
+        step,
+        dueDay,
       },
     },
     activeDays: progress.activeDays.includes(today)
@@ -150,10 +143,15 @@ export function recordAnswer(wordId: string, result: "know" | "missed") {
 
 // Clears all saved progress on this device.
 export function resetProgress() {
-  setProgress(EMPTY_PROGRESS);
+  store.set(EMPTY_PROGRESS);
 }
 
 /* ---------- Summaries ---------- */
+
+// Is this word due for review on the given day?
+export function isDue(entry: WordProgress, today: string): boolean {
+  return entry.dueDay === null || entry.dueDay <= today;
+}
 
 // Where a word stands:
 // - new             never practiced

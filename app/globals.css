@@ -17,6 +17,7 @@
   - sage-ink / clay-ink   darker versions of the accents, used when the
                           accent is the text color, so small text stays
                           easy to read (meets contrast guidelines)
+  - on-clay   text color on top of a clay button
 */
 
 /* Light mode (the default) uses the palette from CLAUDE.md. */
@@ -30,6 +31,7 @@
   --kata-sage-ink: #4f7465;
   --kata-clay: #c8795a;
   --kata-clay-ink: #a65a3c;
+  --kata-on-clay: #ffffff; /* text on clay buttons */
 
   /* Tells the browser to draw scrollbars and form controls to match. */
   color-scheme: light;
@@ -52,6 +54,8 @@
     --kata-sage-ink: #9dc0b0;
     --kata-clay: #d68a6b;
     --kata-clay-ink: #e39b7d;
+    /* The brighter dark-mode clay needs dark text to stay readable. */
+    --kata-on-clay: #161d20;
 
     color-scheme: dark;
   }
@@ -71,22 +75,29 @@
   --color-sage-ink: var(--kata-sage-ink);
   --color-clay: var(--kata-clay);
   --color-clay-ink: var(--kata-clay-ink);
+  --color-on-clay: var(--kata-on-clay);
 
   /*
-    Fonts (loaded in app/layout.tsx):
-    - font-sans     Figtree for everyday text. Japanese characters fall
-                    back to Zen Kaku Gothic New automatically.
-    - font-display  Fraunces for headings and big words.
-    - font-ja       Zen Kaku Gothic New first, for Japanese words.
+    Fonts (loaded in app/layout.tsx). Sans-serif only.
+    - font-sans  Plus Jakarta Sans for all interface text, headings too.
+                 Japanese characters fall back to Zen Kaku Gothic New.
+    - font-ja    Zen Kaku Gothic New first, for Japanese text.
   */
-  --font-sans: var(--font-figtree), var(--font-zen-kaku), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-fraunces), var(--font-zen-kaku), ui-serif, Georgia, serif;
-  --font-ja: var(--font-zen-kaku), var(--font-figtree), sans-serif;
+  --font-sans: var(--font-jakarta), var(--font-zen-kaku), ui-sans-serif, system-ui, sans-serif;
+  --font-ja: var(--font-zen-kaku), var(--font-jakarta), ui-sans-serif, sans-serif;
 }
 
 body {
   background: var(--kata-paper);
   color: var(--kata-ink);
+}
+
+/*
+  Any text marked as Japanese (lang="ja") uses the Japanese font
+  automatically, so we never have to remember a class for it.
+*/
+:lang(ja) {
+  font-family: var(--font-ja);
 }
 
 /*
